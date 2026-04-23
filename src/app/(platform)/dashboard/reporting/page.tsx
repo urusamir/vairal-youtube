@@ -37,20 +37,20 @@ export default function ReportingPage() {
   const isActuallyLoading = isLoading && !isDummyDataEnabled;
   
   // For dummy data, show all campaigns so the preview is always visible.
-  // For real data, only show FINISHED or PUBLISHED campaigns that have reports.
+  // For real data, show everything except Drafts, Pending, or Request Sent.
   const displayCampaigns = useMemo(() => {
     if (isDummyDataEnabled) return source;
-    return source.filter(c => c.status === "FINISHED" || c.status === "PUBLISHED");
+    return source.filter(c => c.status !== "DRAFT" && c.status !== "Pending" && c.status !== "Request Sent");
   }, [source, isDummyDataEnabled]);
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#fdfcfb]">
+    <div className="p-6 sm:p-8 max-w-7xl mx-auto w-full">
       <FeaturePageHeader
         title="POST-CAMPAIGN REPORTING"
         description="Wraps that read like editorial."
         showToggle={true}
       />
-      <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10 lg:pt-6">
+      <div className="mt-6">
         <div className="mb-10 max-w-2xl text-slate-600 font-medium">
           Every wrapped campaign generates a client-ready report — KPIs, per-asset performance,
           audience and sentiment, exportable as a branded PDF.

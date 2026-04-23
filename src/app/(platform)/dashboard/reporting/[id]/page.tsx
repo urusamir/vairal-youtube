@@ -98,11 +98,10 @@ export default function ReportDetailPage() {
   const initials = campaign.name.split(" ").slice(0,2).map(n => n[0]).join("").toUpperCase();
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#fdfcfb] overflow-y-auto custom-scrollbar">
-      <div className="p-6 lg:p-10 max-w-[1400px] w-full mx-auto">
-        <Link href="/dashboard/reporting" className="text-sm text-slate-500 flex items-center mb-8 hover:text-slate-900 transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-2" /> All reports
-        </Link>
+    <div className="p-6 sm:p-8 max-w-7xl mx-auto w-full">
+      <Link href="/dashboard/reporting" className="text-sm text-slate-500 flex items-center mb-8 hover:text-slate-900 transition-colors">
+        <ArrowLeft className="w-4 h-4 mr-2" /> All reports
+      </Link>
 
         {/* Hero Card */}
         <Card className="bg-[#FAF8F5] border-slate-200/60 shadow-sm rounded-3xl p-8 lg:p-12 mb-6 relative overflow-hidden">
@@ -367,8 +366,6 @@ export default function ReportDetailPage() {
             </div>
           </Card>
         </div>
-        
-      </div>
     </div>
   );
 }
