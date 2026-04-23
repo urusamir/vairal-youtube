@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+
+  --primary: #1d4ed8;
+  --primary-foreground: #ffffff;
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  
+  --radius: 0.5rem;
+  --font-sans: 'Inter', sans-serif;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+
+
+/* Allow manual dark mode toggling in Tailwind v4 */
+
+
+
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll-left 30s linear infinite;
+}
+
+.hover-pause:hover .animate-scroll {
+  animation-play-state: paused;
+}
+
+
+/* Accordion Creator Card Classes */
+.creator-card {
+  flex: 1;
+  transition: flex 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  min-width: 0;
+}
+
+.creator-card:hover,
+.creator-card:focus-within {
+  flex: 3;
+}
+
+@media (min-width: 768px) {
+
+  .creator-card:hover,
+  .creator-card:focus-within {
+    flex: 4;
+  }
+}
+
+/* Cinematic Noise Overlay */
+.bg-noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Background Blob Animations */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 15s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Smooth floating animation for login page avatar circles */
+@keyframes float-avatar {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+/* Magnetic Button Mechanics */
+.magnetic-btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.magnetic-btn:hover {
+  transform: scale(1.03) translateY(-2px);
+}
+
+.link-hover {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.link-hover:hover {
+  transform: translateY(-2px);
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-origin-bottom-left {
+    transform-origin: bottom left;
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(var(--tw-rotate, 0deg)); }
+  50% { transform: translateY(-15px) rotate(var(--tw-rotate, 0deg)); }
+  100% { transform: translateY(0px) rotate(var(--tw-rotate, 0deg)); }
+}
