@@ -307,7 +307,7 @@ function DummyDataView() {
             <Clock className="w-5 h-5 text-blue-500" />
             Recent Activity
           </h3>
-          <div className="space-y-6 overflow-y-auto custom-scrollbar pr-2 max-h-[120px]">
+          <div className="space-y-6 overflow-y-auto custom-scrollbar pr-2 max-h-[224px]">
             {recentActivity.map((act, i) => (
               <div key={act.id} className="flex items-start gap-3">
                 <div className="w-2 h-2 mt-2 rounded-full bg-primary/40 shrink-0" />
