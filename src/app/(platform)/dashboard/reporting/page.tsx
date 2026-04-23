@@ -8,11 +8,13 @@ import { Campaign, mockCampaigns, readLocalCampaigns } from "@/models/campaign.t
 import { fetchCampaigns } from "@/services";
 import { FeaturePageHeader } from "@/components/layout/feature-page-header";
 import { Card } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { BarChart2, ArrowRight } from "lucide-react";
 
 export default function ReportingPage() {
   const { user } = useAuth();
-  const { showDummy } = useDummyData();
+  const { showDummy, setShowDummy } = useDummyData();
   const { campaigns: prefetchedCampaigns } = usePrefetchedData();
   
   const [realCampaigns, setRealCampaigns] = useState<Campaign[]>(prefetchedCampaigns);
@@ -48,7 +50,20 @@ export default function ReportingPage() {
       <FeaturePageHeader
         title="POST-CAMPAIGN REPORTING"
         description="Wraps that read like editorial."
-        showToggle={true}
+        actions={
+          <div className="flex items-center gap-3 flex-wrap justify-end">
+            <div className="flex items-center gap-3 rounded-full border border-white/50 bg-white/75 px-5 py-3 shadow-sm backdrop-blur-xl">
+              <Label htmlFor="dummy-toggle-reporting" className="text-sm font-medium text-slate-700">
+                Preview with data
+              </Label>
+              <Switch
+                id="dummy-toggle-reporting"
+                checked={showDummy}
+                onCheckedChange={(val) => setShowDummy(val)}
+              />
+            </div>
+          </div>
+        }
       />
       <div className="mt-6">
         <div className="mb-10 max-w-2xl text-slate-600 font-medium">
@@ -65,7 +80,7 @@ export default function ReportingPage() {
             <BarChart2 className="h-16 w-16 mb-4 text-slate-300" />
             <h3 className="text-xl font-bold text-slate-800">No reports available yet</h3>
             <p className="mt-2 text-sm text-center max-w-sm">
-              Wrapped campaigns will appear here once you finish active campaigns. 
+              Reports will appear here for your active and finished campaigns. 
               {showDummy ? "" : " Turn on Preview with Data to see examples."}
             </p>
           </div>
