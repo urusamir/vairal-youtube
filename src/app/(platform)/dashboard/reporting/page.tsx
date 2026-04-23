@@ -12,7 +12,7 @@ import { BarChart2, ArrowRight } from "lucide-react";
 
 export default function ReportingPage() {
   const { user } = useAuth();
-  const { isDummyDataEnabled } = useDummyData();
+  const { showDummy } = useDummyData();
   const { campaigns: prefetchedCampaigns } = usePrefetchedData();
   
   const [realCampaigns, setRealCampaigns] = useState<Campaign[]>(prefetchedCampaigns);
@@ -33,15 +33,15 @@ export default function ReportingPage() {
     load();
   }, [user?.id]);
 
-  const source = isDummyDataEnabled ? localMocks : realCampaigns;
-  const isActuallyLoading = isLoading && !isDummyDataEnabled;
+  const source = showDummy ? localMocks : realCampaigns;
+  const isActuallyLoading = isLoading && !showDummy;
   
   // For dummy data, show all campaigns so the preview is always visible.
   // For real data, show everything except Drafts, Pending, or Request Sent.
   const displayCampaigns = useMemo(() => {
-    if (isDummyDataEnabled) return source;
+    if (showDummy) return source;
     return source.filter(c => c.status !== "DRAFT" && c.status !== "Pending" && c.status !== "Request Sent");
-  }, [source, isDummyDataEnabled]);
+  }, [source, showDummy]);
 
   return (
     <div className="p-6 sm:p-8 max-w-7xl mx-auto w-full">
@@ -66,7 +66,7 @@ export default function ReportingPage() {
             <h3 className="text-xl font-bold text-slate-800">No reports available yet</h3>
             <p className="mt-2 text-sm text-center max-w-sm">
               Wrapped campaigns will appear here once you finish active campaigns. 
-              {isDummyDataEnabled ? "" : " Turn on Preview with Data to see examples."}
+              {showDummy ? "" : " Turn on Preview with Data to see examples."}
             </p>
           </div>
         ) : (

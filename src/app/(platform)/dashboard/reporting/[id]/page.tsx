@@ -58,7 +58,7 @@ export default function ReportDetailPage() {
   const id = params?.id as string;
   const router = useRouter();
   const { user } = useAuth();
-  const { isDummyDataEnabled } = useDummyData();
+  const { showDummy } = useDummyData();
   
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -67,7 +67,7 @@ export default function ReportDetailPage() {
     const loadCampaign = async () => {
       // Find in mock first if dummy is enabled
       const localMocks = readLocalCampaigns();
-      const source = isDummyDataEnabled ? localMocks : await fetchCampaigns(user?.id || "");
+      const source = showDummy ? localMocks : await fetchCampaigns(user?.id || "");
       
       const found = source.find(c => c.id === id);
       if (found) {
@@ -76,7 +76,7 @@ export default function ReportDetailPage() {
       setIsLoading(false);
     };
     loadCampaign();
-  }, [id, isDummyDataEnabled, user?.id]);
+  }, [id, showDummy, user?.id]);
 
   const chartData = useMemo(() => generateChartData(), []);
 
