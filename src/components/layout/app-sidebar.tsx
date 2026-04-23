@@ -25,7 +25,7 @@ export function AppSidebar() {
 
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-30 flex w-24 flex-col items-center border-r border-[#eceefa] bg-gradient-to-b from-[#fbfcff] via-[#f8faff] to-[#f7f6ff] shadow-[10px_0_34px_rgba(31,41,55,0.035)]">
+      <aside className="fixed inset-y-0 left-0 z-30 flex w-24 flex-col items-center border-r border-[#eceefa] bg-gradient-to-b from-[#fbfcff] via-[#f8faff] to-[#f7f6ff] shadow-[10px_0_34px_rgba(31,41,55,0.035)] print:hidden">
         <Link
           href="/dashboard"
           className="mt-5 flex h-12 w-full items-center justify-center text-[15px] font-black tracking-[0.12em] text-[#111827] transition-colors hover:text-[#4f46e5]"
@@ -95,7 +95,7 @@ export function AppSidebar() {
           </DropdownMenu>
         </div>
       </aside>
-      <div className="w-24 shrink-0" aria-hidden="true" />
+      <div className="w-24 shrink-0 print:hidden" aria-hidden="true" />
     </>
   );
 }

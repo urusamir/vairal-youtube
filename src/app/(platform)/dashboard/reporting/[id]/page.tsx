@@ -247,7 +247,7 @@ export default function ReportDetailPage() {
               </Button>
               <Button 
                 onClick={() => window.print()}
-                className="bg-[#f97316] hover:bg-[#ea580c] text-white shadow-lg shadow-orange-500/20"
+                className="bg-[#4f46e5] hover:bg-[#4338ca] text-white shadow-lg shadow-[#4f46e5]/20"
               >
                 <Download className="w-4 h-4 mr-2" /> Export PDF
               </Button>
@@ -302,8 +302,8 @@ export default function ReportDetailPage() {
               <p className="text-sm text-slate-500 font-medium">Daily views by platform</p>
             </div>
             <div className="flex items-center gap-4 text-xs font-semibold text-slate-600">
-              <div className="flex items-center"><span className="w-2 h-2 rounded-full bg-[#f97316] mr-2"></span>YouTube</div>
-              <div className="flex items-center"><span className="w-2 h-2 rounded-full bg-[#fb923c] mr-2"></span>Instagram</div>
+              <div className="flex items-center"><span className="w-2 h-2 rounded-full bg-[#ef4444] mr-2"></span>YouTube</div>
+              <div className="flex items-center"><span className="w-2 h-2 rounded-full bg-[#ec4899] mr-2"></span>Instagram</div>
               <div className="flex items-center"><span className="w-2 h-2 rounded-full bg-[#3b82f6] mr-2"></span>TikTok</div>
             </div>
           </div>
@@ -313,12 +313,12 @@ export default function ReportDetailPage() {
               <AreaChart data={chartData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorYt" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#f97316" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#f97316" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#ef4444" stopOpacity={0.2}/>
+                    <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorIg" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#fb923c" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#fb923c" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#ec4899" stopOpacity={0.2}/>
+                    <stop offset="95%" stopColor="#ec4899" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorTt" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.1}/>
@@ -330,8 +330,8 @@ export default function ReportDetailPage() {
                 <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#64748b' }} tickFormatter={(val) => `${(val/1000).toFixed(0)}K`} />
                 <Tooltip content={<CustomTooltip />} />
                 <Area type="monotone" dataKey="tiktok" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorTt)" />
-                <Area type="monotone" dataKey="instagram" stroke="#fb923c" strokeWidth={2} fillOpacity={1} fill="url(#colorIg)" />
-                <Area type="monotone" dataKey="youtube" stroke="#f97316" strokeWidth={2} fillOpacity={1} fill="url(#colorYt)" />
+                <Area type="monotone" dataKey="instagram" stroke="#ec4899" strokeWidth={2} fillOpacity={1} fill="url(#colorIg)" />
+                <Area type="monotone" dataKey="youtube" stroke="#ef4444" strokeWidth={2} fillOpacity={1} fill="url(#colorYt)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -383,7 +383,7 @@ export default function ReportDetailPage() {
                   <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-3">Retention</div>
                   <div className="flex items-center gap-3">
                     <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-orange-500 rounded-full" style={{ width: `${asset.retention}%` }}></div>
+                      <div className="h-full bg-[#4f46e5] rounded-full" style={{ width: `${asset.retention}%` }}></div>
                     </div>
                     <span className="text-xs font-semibold text-slate-600">{asset.retention}%</span>
                   </div>
@@ -399,7 +399,7 @@ export default function ReportDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-20">
           <Card className="bg-[#FAF8F5] border-slate-200/60 shadow-sm rounded-3xl p-8 lg:col-span-2">
             <h3 className="font-serif text-2xl text-slate-900 mb-8 flex items-center">
-              <Award className="w-5 h-5 text-orange-500 mr-2" /> Creator leaderboard
+              <Award className="w-5 h-5 text-[#4f46e5] mr-2" /> Creator leaderboard
             </h3>
             
             <div className="space-y-4">

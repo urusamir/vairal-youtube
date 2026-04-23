@@ -116,7 +116,7 @@ export default function ReportingPage() {
                     </div>
                     <div>
                       <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">ROAS</div>
-                      <div className="text-xl font-light text-orange-500">{(Math.random() * 8 + 2).toFixed(1)}x</div>
+                      <div className="text-xl font-light text-[#4f46e5]">{(Math.random() * 8 + 2).toFixed(1)}x</div>
                     </div>
                   </div>
 
