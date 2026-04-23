@@ -38,18 +38,22 @@ export default function ReportingPage() {
   const source = showDummy ? localMocks : realCampaigns;
   const isActuallyLoading = isLoading && !showDummy;
   
-  // For dummy data, show all campaigns so the preview is always visible.
-  // For real data, show everything except Drafts, Pending, or Request Sent.
+  // Filter out Drafts, Pending, and Request Sent campaigns.
   const displayCampaigns = useMemo(() => {
-    if (showDummy) return source;
-    return source.filter(c => c.status !== "DRAFT" && c.status !== "Pending" && c.status !== "Request Sent");
+    const filtered = source.filter(c => c.status !== "DRAFT" && c.status !== "Pending" && c.status !== "Request Sent");
+    // If dummy data is ON but the user's localStorage has no valid campaigns (e.g. they deleted them),
+    // we fallback to the raw mockCampaigns so the UI can still be previewed.
+    if (showDummy && filtered.length === 0) {
+      return mockCampaigns.filter(c => c.status !== "DRAFT" && c.status !== "Pending" && c.status !== "Request Sent");
+    }
+    return filtered;
   }, [source, showDummy]);
 
   return (
     <div className="p-6 sm:p-8 max-w-7xl mx-auto w-full">
       <FeaturePageHeader
         title="POST-CAMPAIGN REPORTING"
-        description="Wraps that read like editorial."
+        description="Every active or wrapped up campaign generates a client-ready report exportable as a PDF."
         actions={
           <div className="flex items-center gap-3 flex-wrap justify-end">
             <div className="flex items-center gap-3 rounded-full border border-white/50 bg-white/75 px-5 py-3 shadow-sm backdrop-blur-xl">
@@ -66,11 +70,6 @@ export default function ReportingPage() {
         }
       />
       <div className="mt-6">
-        <div className="mb-10 max-w-2xl text-slate-600 font-medium">
-          Every wrapped campaign generates a client-ready report — KPIs, per-asset performance,
-          audience and sentiment, exportable as a branded PDF.
-        </div>
-
         {isActuallyLoading ? (
           <div className="flex items-center justify-center py-24 text-slate-400">
             Loading reports...
