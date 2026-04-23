@@ -34,11 +34,14 @@ export default function ReportingPage() {
   }, [user?.id]);
 
   const source = isDummyDataEnabled ? localMocks : realCampaigns;
+  const isActuallyLoading = isLoading && !isDummyDataEnabled;
   
-  // Show only campaigns that have reports. For UI purposes, we'll assume FINISHED or PUBLISHED campaigns have wraps.
+  // For dummy data, show all campaigns so the preview is always visible.
+  // For real data, only show FINISHED or PUBLISHED campaigns that have reports.
   const displayCampaigns = useMemo(() => {
+    if (isDummyDataEnabled) return source;
     return source.filter(c => c.status === "FINISHED" || c.status === "PUBLISHED");
-  }, [source]);
+  }, [source, isDummyDataEnabled]);
 
   return (
     <div className="flex h-full w-full flex-col bg-[#fdfcfb]">
@@ -53,7 +56,11 @@ export default function ReportingPage() {
           audience and sentiment, exportable as a branded PDF.
         </div>
 
-        {!isLoading && displayCampaigns.length === 0 ? (
+        {isActuallyLoading ? (
+          <div className="flex items-center justify-center py-24 text-slate-400">
+            Loading reports...
+          </div>
+        ) : displayCampaigns.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-slate-500">
             <BarChart2 className="h-16 w-16 mb-4 text-slate-300" />
             <h3 className="text-xl font-bold text-slate-800">No reports available yet</h3>

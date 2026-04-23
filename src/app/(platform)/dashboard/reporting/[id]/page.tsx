@@ -134,7 +134,10 @@ export default function ReportDetailPage() {
               <Button variant="outline" className="bg-white/50 border-slate-200 hover:bg-white text-slate-700">
                 <Share2 className="w-4 h-4 mr-2" /> Share
               </Button>
-              <Button className="bg-[#f97316] hover:bg-[#ea580c] text-white shadow-lg shadow-orange-500/20">
+              <Button 
+                onClick={() => window.print()}
+                className="bg-[#f97316] hover:bg-[#ea580c] text-white shadow-lg shadow-orange-500/20"
+              >
                 <Download className="w-4 h-4 mr-2" /> Export PDF
               </Button>
             </div>
