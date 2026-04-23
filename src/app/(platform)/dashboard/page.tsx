@@ -189,8 +189,8 @@ function DummyDataView() {
               </button>
             </div>
             
-            <div className="flex-1 overflow-hidden flex flex-col h-[240px]">
-              <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+            <div className="overflow-hidden flex flex-col">
+              <div className="overflow-y-auto pr-2 custom-scrollbar max-h-[210px]">
                 <table className="w-full relative">
                   <thead className="sticky top-0 bg-white/95 backdrop-blur z-10">
                     <tr className="border-b border-slate-100">
@@ -239,7 +239,7 @@ function DummyDataView() {
               <Award className="w-5 h-5 text-purple-500" />
               Top Performers
             </h3>
-            <div className="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2 h-[230px]">
+            <div className="space-y-4 overflow-y-auto custom-scrollbar pr-2 max-h-[248px]">
               {dummyTopCreators.map((creator, i) => (
                 <div key={i} className="flex items-center p-3 -mx-3 rounded-2xl hover:bg-slate-50/50 hover:shadow-sm transition-colors cursor-pointer group">
                   <div className={`w-12 h-12 shrink-0 rounded-2xl ${creator.avatar} flex items-center justify-center text-white text-lg font-bold shadow-sm relative overflow-hidden`}>
@@ -276,7 +276,7 @@ function DummyDataView() {
             </div>
           </div>
           
-          <div className="space-y-4 overflow-y-auto custom-scrollbar pr-2 h-[215px]">
+          <div className="space-y-4 overflow-y-auto custom-scrollbar pr-2 max-h-[224px]">
             {upcomingDeliverables.length > 0 ? upcomingDeliverables.map((d, i) => (
               <div key={i} className="flex items-center gap-4 p-3 -mx-3 rounded-2xl hover:bg-slate-50/50 hover:shadow-sm transition-colors cursor-pointer group">
                 <div className="w-10 h-10 shrink-0 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 font-bold text-sm">
@@ -307,7 +307,7 @@ function DummyDataView() {
             <Clock className="w-5 h-5 text-blue-500" />
             Recent Activity
           </h3>
-          <div className="space-y-6 overflow-y-auto custom-scrollbar pr-2 h-[150px]">
+          <div className="space-y-6 overflow-y-auto custom-scrollbar pr-2 max-h-[120px]">
             {recentActivity.map((act, i) => (
               <div key={act.id} className="flex items-start gap-3">
                 <div className="w-2 h-2 mt-2 rounded-full bg-primary/40 shrink-0" />
