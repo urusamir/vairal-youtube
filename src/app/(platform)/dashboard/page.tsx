@@ -35,11 +35,12 @@ const dummyStats = [
   { title: "Avg. ROI", value: "340%", change: "+5%", up: true, icon: TrendingUp, color: "from-amber-400 to-orange-500" },
 ];
 
-// Mirrors the confirmed creators in mockCampaigns (sherinsbeauty, ossymarwah, alrafaelo)
 const dummyTopCreators = [
   { name: "Sherin Amara", platform: "Instagram", followers: "12.3M", engagement: "5.2%", avatar: "bg-pink-500" },
   { name: "Ossy Marwah", platform: "Instagram", followers: "9.1M", engagement: "10.1%", avatar: "bg-blue-600" },
   { name: "Al Rafaelo", platform: "Instagram", followers: "3.2M", engagement: "7.4%", avatar: "bg-purple-500" },
+  { name: "Ghaith Marwan", platform: "YouTube", followers: "8.5M", engagement: "8.2%", avatar: "bg-rose-500" },
+  { name: "Noor Stars", platform: "YouTube", followers: "20.1M", engagement: "6.5%", avatar: "bg-emerald-500" },
 ];
 
 const STATUS_BADGE: Record<string, { badge: string; label: string }> = {
@@ -106,15 +107,14 @@ function DummyDataView() {
       })
     )
     .filter(d => !!d.submitShootBefore)
-    .sort((a, b) => new Date(a.submitShootBefore || 0).getTime() - new Date(b.submitShootBefore || 0).getTime())
-    .slice(0, 5); // Limit to 5
+    .sort((a, b) => new Date(a.submitShootBefore || 0).getTime() - new Date(b.submitShootBefore || 0).getTime());
 
   // Derived Recent Activity
   const recentActivity = (() => {
     const activities = [];
     const recentCampaigns = [...mockCampaigns].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
     
-    for (let i = 0; i < Math.min(5, recentCampaigns.length); i++) {
+    for (let i = 0; i < Math.min(10, recentCampaigns.length); i++) {
       const c = recentCampaigns[i];
       const sc = c.selectedCreators?.[0];
       const creatorName = sc ? (creatorsData.find(cd => cd.username === sc.creatorId)?.fullname || sc.creatorId) : "A creator";
@@ -189,7 +189,7 @@ function DummyDataView() {
               </button>
             </div>
             
-            <div className="flex-1 overflow-hidden flex flex-col h-[280px]">
+            <div className="flex-1 overflow-hidden flex flex-col h-[240px]">
               <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
                 <table className="w-full relative">
                   <thead className="sticky top-0 bg-white/95 backdrop-blur z-10">
@@ -239,8 +239,8 @@ function DummyDataView() {
               <Award className="w-5 h-5 text-purple-500" />
               Top Performers
             </h3>
-            <div className="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2 max-h-[280px]">
-              {dummyTopCreators.slice(0, 3).map((creator, i) => (
+            <div className="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2 h-[230px]">
+              {dummyTopCreators.map((creator, i) => (
                 <div key={i} className="flex items-center p-3 -mx-3 rounded-2xl hover:bg-slate-50/50 hover:shadow-sm transition-colors cursor-pointer group">
                   <div className={`w-12 h-12 shrink-0 rounded-2xl ${creator.avatar} flex items-center justify-center text-white text-lg font-bold shadow-sm relative overflow-hidden`}>
                     {creator.name.split(" ").map((n) => n[0]).join("").substring(0,2)}
@@ -276,7 +276,7 @@ function DummyDataView() {
             </div>
           </div>
           
-          <div className="space-y-4">
+          <div className="space-y-4 overflow-y-auto custom-scrollbar pr-2 h-[215px]">
             {upcomingDeliverables.length > 0 ? upcomingDeliverables.map((d, i) => (
               <div key={i} className="flex items-center gap-4 p-3 -mx-3 rounded-2xl hover:bg-slate-50/50 hover:shadow-sm transition-colors cursor-pointer group">
                 <div className="w-10 h-10 shrink-0 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 font-bold text-sm">
@@ -307,7 +307,7 @@ function DummyDataView() {
             <Clock className="w-5 h-5 text-blue-500" />
             Recent Activity
           </h3>
-          <div className="space-y-6">
+          <div className="space-y-6 overflow-y-auto custom-scrollbar pr-2 h-[150px]">
             {recentActivity.map((act, i) => (
               <div key={act.id} className="flex items-start gap-3">
                 <div className="w-2 h-2 mt-2 rounded-full bg-primary/40 shrink-0" />
