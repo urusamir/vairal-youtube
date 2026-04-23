@@ -12,19 +12,47 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Share2, Download, PlayCircle, Award } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
+// Simple deterministic hash from string
+const hashCode = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
+};
+
+// Seeded random number between 0 and 1
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+};
+
+const formatNumber = (num: number) => {
+  if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+  if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+  return Math.floor(num).toString();
+};
+
+const formatCurrency = (num: number) => {
+  if (num >= 1000000) return "$" + (num / 1000000).toFixed(1) + "M";
+  if (num >= 1000) return "$" + (num / 1000).toFixed(1) + "K";
+  return "$" + Math.floor(num).toString();
+};
+
 // Mock data generator for the chart
-const generateChartData = () => {
+const generateChartData = (campaignId: string) => {
+  const seed = hashCode(campaignId);
   const data = [];
-  const platforms = ["youtube", "instagram", "tiktok"];
-  let y = 30000;
-  let i = 20000;
-  let t = 50000;
+  let y = 30000 + seededRandom(seed) * 20000;
+  let i = 20000 + seededRandom(seed + 1) * 10000;
+  let t = 50000 + seededRandom(seed + 2) * 30000;
   
   for (let day = 10; day <= 28; day++) {
-    // adding some wave patterns
-    y += Math.sin(day) * 10000 + 5000;
-    i += Math.cos(day) * 8000 + 3000;
-    t += Math.sin(day * 2) * 15000 + 8000;
+    y += Math.sin(day + seededRandom(seed + day)) * 10000 + 5000;
+    i += Math.cos(day + seededRandom(seed + day + 1)) * 8000 + 3000;
+    t += Math.sin(day * 2 + seededRandom(seed + day + 2)) * 15000 + 8000;
     
     data.push({
       date: `Feb ${day}`,
@@ -69,7 +97,11 @@ export default function ReportDetailPage() {
       const localMocks = readLocalCampaigns();
       const source = showDummy ? localMocks : await fetchCampaigns(user?.id || "");
       
-      const found = source.find(c => c.id === id);
+      let found = source.find(c => c.id === id);
+      if (showDummy && !found) {
+        found = mockCampaigns.find(c => c.id === id);
+      }
+
       if (found) {
         setCampaign(found);
       }
@@ -78,7 +110,87 @@ export default function ReportDetailPage() {
     loadCampaign();
   }, [id, showDummy, user?.id]);
 
-  const chartData = useMemo(() => generateChartData(), []);
+  const chartData = useMemo(() => {
+    if (!campaign) return [];
+    return generateChartData(campaign.id);
+  }, [campaign]);
+
+  // Dynamic metrics derived from campaign
+  const dynamicMetrics = useMemo(() => {
+    if (!campaign) return null;
+    const seed = hashCode(campaign.id);
+    const budget = campaign.totalBudget || 50000;
+    
+    // Scale things by budget
+    const roas = 2.5 + seededRandom(seed) * 5; // 2.5x to 7.5x
+    const emv = budget * roas;
+    const views = budget * (10 + seededRandom(seed + 1) * 50);
+    const reach = views * (1.2 + seededRandom(seed + 2) * 2);
+    const engagements = views * (0.01 + seededRandom(seed + 3) * 0.08);
+    const cpm = (budget / views) * 1000;
+    
+    // Generate dynamic assets based on selectedCreators
+    const assets: any[] = [];
+    campaign.selectedCreators?.forEach(creator => {
+      creator.deliverables?.forEach((del, i) => {
+        const dSeed = hashCode(del.id + i);
+        const aViews = views * (0.1 + seededRandom(dSeed) * 0.3); // share of views
+        assets.push({
+          title: `${campaign.name} — ${del.contentDetails}`,
+          creator: creator.creatorId,
+          views: formatNumber(aViews),
+          likes: formatNumber(aViews * 0.05),
+          comments: formatNumber(aViews * 0.005),
+          avgDuration: `${Math.floor(2 + seededRandom(dSeed + 1) * 10)}:${Math.floor(10 + seededRandom(dSeed + 2) * 40).toString().padStart(2, '0')}`,
+          retention: Math.floor(40 + seededRandom(dSeed + 3) * 40),
+          rawViews: aViews,
+          rawEng: (aViews * 0.05) + (aViews * 0.005)
+        });
+      });
+    });
+
+    // Generate dynamic leaderboard
+    const leaderMap: Record<string, { views: number, eng: number, count: number }> = {};
+    assets.forEach(a => {
+      if (!leaderMap[a.creator]) leaderMap[a.creator] = { views: 0, eng: 0, count: 0 };
+      leaderMap[a.creator].views += a.rawViews;
+      leaderMap[a.creator].eng += a.rawEng;
+      leaderMap[a.creator].count += 1;
+    });
+    
+    const leaderboard = Object.keys(leaderMap)
+      .map(k => ({
+        name: k,
+        views: formatNumber(leaderMap[k].views),
+        eng: formatNumber(leaderMap[k].eng),
+        assets: `${leaderMap[k].count} asset${leaderMap[k].count > 1 ? 's' : ''}`,
+        rawViews: leaderMap[k].views
+      }))
+      .sort((a, b) => b.rawViews - a.rawViews)
+      .slice(0, 3)
+      .map((item, i) => ({ ...item, medal: ["🥇", "🥈", "🥉"][i] || "" }));
+
+    // Generate Themes
+    const allThemes = ["craftsmanship", "design-led", "aspirational", "honest", "patient", "tasteful", "luxury", "accessible", "fun", "innovative", "fresh"];
+    const shuffledThemes = [...allThemes].sort((a, b) => 0.5 - seededRandom(seed + hashCode(a)));
+    
+    const positive = Math.floor(70 + seededRandom(seed + 4) * 20);
+    const negative = Math.floor(2 + seededRandom(seed + 5) * 8);
+    const neutral = 100 - positive - negative;
+
+    return {
+      reach: formatNumber(reach),
+      views: formatNumber(views),
+      engagements: formatNumber(engagements),
+      emv: formatCurrency(emv),
+      cpm: formatCurrency(cpm),
+      roas: roas.toFixed(1) + "×",
+      assets: assets.sort((a, b) => b.rawViews - a.rawViews),
+      leaderboard,
+      sentiment: { positive, neutral, negative },
+      themes: shuffledThemes.slice(0, 6)
+    };
+  }, [campaign]);
 
   if (isLoading) {
     return <div className="p-10 text-slate-500">Loading report...</div>;
@@ -147,17 +259,17 @@ export default function ReportDetailPage() {
         <Card className="bg-white border-slate-200 shadow-sm rounded-2xl mb-12 flex items-center justify-between overflow-x-auto">
           <div className="p-6 px-8 min-w-[150px] border-r border-slate-100 last:border-0">
             <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-3">Total Reach</div>
-            <div className="text-3xl font-light text-slate-800 mb-2">18M</div>
+            <div className="text-3xl font-light text-slate-800 mb-2">{dynamicMetrics?.reach}</div>
             <div className="text-xs font-medium text-emerald-600">+15% vs goal</div>
           </div>
           <div className="p-6 px-8 min-w-[150px] border-r border-slate-100 last:border-0">
             <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-3">Total Views</div>
-            <div className="text-3xl font-light text-slate-800 mb-2">7.1M</div>
+            <div className="text-3xl font-light text-slate-800 mb-2">{dynamicMetrics?.views}</div>
             <div className="text-xs font-medium text-emerald-600">+42% vs goal</div>
           </div>
           <div className="p-6 px-8 min-w-[150px] border-r border-slate-100 last:border-0">
             <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-3">Engagements</div>
-            <div className="text-3xl font-light text-slate-800 mb-2">642K</div>
+            <div className="text-3xl font-light text-slate-800 mb-2">{dynamicMetrics?.engagements}</div>
             <div className="text-xs font-medium text-emerald-600">+34% vs goal</div>
           </div>
           <div className="p-6 px-8 min-w-[150px] border-r border-slate-100 last:border-0">
@@ -167,17 +279,17 @@ export default function ReportDetailPage() {
           </div>
           <div className="p-6 px-8 min-w-[150px] border-r border-slate-100 last:border-0">
             <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-3">EMV</div>
-            <div className="text-3xl font-light text-slate-800 mb-2">$2.8M</div>
+            <div className="text-3xl font-light text-slate-800 mb-2">{dynamicMetrics?.emv}</div>
             <div className="text-xs font-medium text-transparent">_</div>
           </div>
           <div className="p-6 px-8 min-w-[150px] border-r border-slate-100 last:border-0">
             <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-3">Effective CPM</div>
-            <div className="text-3xl font-light text-slate-800 mb-2">$28</div>
+            <div className="text-3xl font-light text-slate-800 mb-2">{dynamicMetrics?.cpm}</div>
             <div className="text-xs font-medium text-transparent">_</div>
           </div>
           <div className="p-6 px-8 min-w-[150px] border-r border-slate-100 last:border-0">
             <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-3">ROAS</div>
-            <div className="text-3xl font-light text-slate-800 mb-2">6.4×</div>
+            <div className="text-3xl font-light text-slate-800 mb-2">{dynamicMetrics?.roas}</div>
             <div className="text-xs font-medium text-emerald-600">+42% vs goal</div>
           </div>
         </Card>
@@ -233,13 +345,7 @@ export default function ReportDetailPage() {
           </div>
           
           <div className="divide-y divide-slate-100">
-            {[
-              { title: `${campaign.name} — Hands-On`, creator: "Kenji Watari", views: "1.8M", likes: "96K", comments: "7.2K", avgDuration: "11:18", retention: 62 },
-              { title: `The Product I'd Buy With My Own Money`, creator: "Noah Harlow", views: "2.6M", likes: "138K", comments: "11K", avgDuration: "9:54", retention: 58 },
-              { title: `${campaign.name} — Cinematic Sequence`, creator: "Elio Romano", views: "1.4M", likes: "88K", comments: "4.8K", avgDuration: "12:42", retention: 66 },
-              { title: `${campaign.name} — Reel`, creator: "Kenji Watari", views: "612K", likes: "38K", comments: "1.2K", avgDuration: "0:32", retention: 71 },
-              { title: `Behind the scenes — Reel`, creator: "Noah Harlow", views: "588K", likes: "41K", comments: "1.8K", avgDuration: "0:38", retention: 74 }
-            ].map((asset, i) => (
+            {dynamicMetrics?.assets.length ? dynamicMetrics.assets.map((asset, i) => (
               <div key={i} className="p-6 px-8 flex items-center gap-8 hover:bg-slate-50/50 transition-colors">
                 <div className="relative w-32 h-20 rounded-lg bg-slate-200 shrink-0 overflow-hidden group cursor-pointer">
                   <div className="absolute inset-0 bg-gradient-to-tr from-slate-800/80 to-transparent flex items-center justify-center">
@@ -250,7 +356,7 @@ export default function ReportDetailPage() {
                 
                 <div className="flex-1 min-w-0">
                   <h4 className="font-semibold text-slate-900 truncate mb-1 text-base">{asset.title}</h4>
-                  <p className="text-sm text-slate-500">{asset.creator}</p>
+                  <p className="text-sm text-slate-500">@{asset.creator}</p>
                 </div>
                 
                 <div className="w-24 shrink-0">
@@ -283,7 +389,9 @@ export default function ReportDetailPage() {
                   </div>
                 </div>
               </div>
-            ))}
+            )) : (
+              <div className="p-8 text-center text-slate-500">No assets reported yet.</div>
+            )}
           </div>
         </Card>
 
@@ -295,18 +403,14 @@ export default function ReportDetailPage() {
             </h3>
             
             <div className="space-y-4">
-              {[
-                { name: "Noah Harlow", views: "3.2M", eng: "216K", assets: "2 assets", medal: "🥇" },
-                { name: "Kenji Watari", views: "2.5M", eng: "159K", assets: "2 assets", medal: "🥈" },
-                { name: "Elio Romano", views: "1.4M", eng: "102K", assets: "1 asset", medal: "🥉" }
-              ].map((creator, i) => (
+              {dynamicMetrics?.leaderboard.length ? dynamicMetrics.leaderboard.map((creator, i) => (
                 <div key={i} className="flex items-center bg-white rounded-2xl p-4 px-6 border border-slate-100 shadow-sm">
                   <div className="text-2xl mr-4">{creator.medal}</div>
-                  <div className="w-10 h-10 rounded-full bg-slate-100 mr-4 flex items-center justify-center font-bold text-slate-600 shrink-0">
-                    {creator.name.split(" ").map(n=>n[0]).join("")}
+                  <div className="w-10 h-10 rounded-full bg-slate-100 mr-4 flex items-center justify-center font-bold text-slate-600 shrink-0 uppercase">
+                    {creator.name.substring(0,2)}
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-slate-900">{creator.name}</div>
+                    <div className="font-semibold text-slate-900">@{creator.name}</div>
                     <div className="text-xs text-slate-500">{creator.assets}</div>
                   </div>
                   <div className="text-right mr-8">
@@ -318,7 +422,9 @@ export default function ReportDetailPage() {
                     <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Eng.</div>
                   </div>
                 </div>
-              ))}
+              )) : (
+                <div className="text-sm text-slate-500">No creators found.</div>
+              )}
             </div>
           </Card>
 
@@ -330,36 +436,36 @@ export default function ReportDetailPage() {
               <div>
                 <div className="flex justify-between text-sm mb-2">
                   <span className="font-medium text-slate-600">Positive</span>
-                  <span className="font-bold text-slate-800">78%</span>
+                  <span className="font-bold text-slate-800">{dynamicMetrics?.sentiment.positive}%</span>
                 </div>
                 <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-emerald-600 rounded-full" style={{ width: "78%" }}></div>
+                  <div className="h-full bg-emerald-600 rounded-full" style={{ width: `${dynamicMetrics?.sentiment.positive}%` }}></div>
                 </div>
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-2">
                   <span className="font-medium text-slate-600">Neutral</span>
-                  <span className="font-bold text-slate-800">18%</span>
+                  <span className="font-bold text-slate-800">{dynamicMetrics?.sentiment.neutral}%</span>
                 </div>
                 <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-slate-300 rounded-full" style={{ width: "18%" }}></div>
+                  <div className="h-full bg-slate-300 rounded-full" style={{ width: `${dynamicMetrics?.sentiment.neutral}%` }}></div>
                 </div>
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-2">
                   <span className="font-medium text-slate-600">Negative</span>
-                  <span className="font-bold text-slate-800">4%</span>
+                  <span className="font-bold text-slate-800">{dynamicMetrics?.sentiment.negative}%</span>
                 </div>
                 <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-red-500 rounded-full" style={{ width: "4%" }}></div>
+                  <div className="h-full bg-red-500 rounded-full" style={{ width: `${dynamicMetrics?.sentiment.negative}%` }}></div>
                 </div>
               </div>
             </div>
 
             <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Top Themes</div>
             <div className="flex flex-wrap gap-2">
-              {["craftsmanship", "design-led", "aspirational", "honest", "patient", "tasteful"].map((theme, i) => (
-                <div key={i} className="px-3 py-1.5 bg-[#FAF8F5] border border-slate-200/60 rounded-full text-xs font-semibold text-slate-700">
+              {dynamicMetrics?.themes.map((theme, i) => (
+                <div key={i} className="px-3 py-1.5 bg-[#FAF8F5] border border-slate-200/60 rounded-full text-xs font-semibold text-slate-700 capitalize">
                   {theme}
                 </div>
               ))}

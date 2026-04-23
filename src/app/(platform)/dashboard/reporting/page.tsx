@@ -40,11 +40,11 @@ export default function ReportingPage() {
   
   // Filter out Drafts, Pending, and Request Sent campaigns.
   const displayCampaigns = useMemo(() => {
-    const filtered = source.filter(c => c.status !== "DRAFT" && c.status !== "Pending" && c.status !== "Request Sent");
+    const filtered = source.filter(c => c.status !== "DRAFT" && (c.status as string) !== "Pending" && (c.status as string) !== "Request Sent");
     // If dummy data is ON but the user's localStorage has no valid campaigns (e.g. they deleted them),
     // we fallback to the raw mockCampaigns so the UI can still be previewed.
     if (showDummy && filtered.length === 0) {
-      return mockCampaigns.filter(c => c.status !== "DRAFT" && c.status !== "Pending" && c.status !== "Request Sent");
+      return mockCampaigns.filter(c => c.status !== "DRAFT" && (c.status as string) !== "Pending" && (c.status as string) !== "Request Sent");
     }
     return filtered;
   }, [source, showDummy]);
