@@ -114,8 +114,8 @@ function DummyDataView() {
     const activities = [];
     const recentCampaigns = [...mockCampaigns].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
     
-    for (let i = 0; i < Math.min(10, recentCampaigns.length); i++) {
-      const c = recentCampaigns[i];
+    for (let i = 0; i < 8; i++) {
+      const c = recentCampaigns[i % recentCampaigns.length];
       const sc = c.selectedCreators?.[0];
       const creatorName = sc ? (creatorsData.find(cd => cd.username === sc.creatorId)?.fullname || sc.creatorId) : "A creator";
       
@@ -133,9 +133,18 @@ function DummyDataView() {
       } else if (i === 3) {
         actionText = `Agency sent revised contract to ${creatorName}`;
         timeText = "Yesterday";
-      } else {
+      } else if (i === 4) {
         actionText = `${c.name} status updated to ${c.status}`;
         timeText = "2 days ago";
+      } else if (i === 5) {
+        actionText = `${creatorName} requested a deadline extension`;
+        timeText = "3 days ago";
+      } else if (i === 6) {
+        actionText = `Payment processed for ${c.name}`;
+        timeText = "4 days ago";
+      } else {
+        actionText = `New deliverables added to ${c.name}`;
+        timeText = "Last week";
       }
       
       activities.push({ text: actionText, time: timeText, id: `act-${i}` });
@@ -307,7 +316,7 @@ function DummyDataView() {
             <Clock className="w-5 h-5 text-blue-500" />
             Recent Activity
           </h3>
-          <div className="space-y-6 overflow-y-auto custom-scrollbar pr-2 max-h-[224px]">
+          <div className="space-y-3 overflow-y-auto custom-scrollbar pr-2 max-h-[224px]">
             {recentActivity.map((act, i) => (
               <div key={act.id} className="flex items-start gap-3">
                 <div className="w-2 h-2 mt-2 rounded-full bg-primary/40 shrink-0" />
