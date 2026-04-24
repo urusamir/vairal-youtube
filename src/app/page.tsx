@@ -130,8 +130,8 @@ export default function LandingPage() {
     <!-- HERO SECTION -->
     <section class="hero-alfan" id="hero">
       <div class="hero-bg">
-      <div class="hero-orb orb-2" style={{ opacity: 0.15 }}></div>
-      <div class="hero-grid" style={{ opacity: 0.4 }}></div>
+      <div class="hero-orb orb-2" style="opacity: 0.15"></div>
+      <div class="hero-grid" style="opacity: 0.4"></div>
     </div>
     <svg class="hero-curves" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <path class="curve-1" d="M 1300 -50 Q 1400 200 1200 400 Q 1000 600 1300 900" stroke="#4671F6" stroke-width="1.5" fill="none" stroke-opacity="0.35"/>
@@ -142,65 +142,65 @@ export default function LandingPage() {
     <div class="hero-alfan-inner">
       <!-- LEFT CONTENT -->
       <div class="hero-alfan-text">
-        <div class="hero-badge" id="hero-badge" style={{ background: 'rgba(168, 85, 247, 0.1)', color: '#9333ea', border: '1px solid rgba(168, 85, 247, 0.2)' }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style={{ marginRight: '6px', fill: '#9333ea', stroke: 'none' }}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <div class="hero-badge" id="hero-badge" style="background: 'rgba(168; color: #9333ea; border: '1px solid rgba(168">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; fill: #9333ea; stroke: none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           Exclusively for Kids &amp; Family Brands
         </div>
         <h1 class="hero-alfan-title" id="hero-title">
-          Effortless influencer collabs,<br/><span style={{ color: '#8b5cf6' }}>real results.</span> <span style={{ color: '#fbbf24' }}>✨</span>
+          Effortless influencer collabs,<br/><span style="color: #8b5cf6">real results.</span> <span style="color: #fbbf24">✨</span>
         </h1>
         <p class="hero-alfan-sub" id="hero-sub">
           <strong>Join 100+ brands</strong> using Vairal to automate their collaborations with thousands of <strong>kids &amp; family</strong> content creators that deliver real results. 🚀
         </p>
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
-          <a href="#footer-cta" class="btn btn-campaign btn-lg" id="hero-cta-primary" style={{ borderRadius: '100px', padding: '16px 36px', fontWeight: 600, boxShadow: '0 10px 25px rgba(70, 113, 246, 0.3)' }}>Create campaign <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="#" class="btn btn-ghost btn-lg" style={{ borderRadius: '100px', fontWeight: 600, padding: '15px 36px', background: 'white', border: '1px solid rgba(0,0,0,0.08)', color: '#111827', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary)" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round" style={{ marginRight: '8px' }}><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch how it works</a>
+        <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-top: 24px">
+          <a href="#footer-cta" class="btn btn-campaign btn-lg" id="hero-cta-primary" style="border-radius: 100px; padding: 16px 36px; font-weight: 600; box-shadow: '0 10px 25px rgba(70">Create campaign <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 4px"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="btn btn-ghost btn-lg" style="border-radius: 100px; font-weight: 600; padding: 15px 36px; background: white; border: '1px solid rgba(0; color: #111827; box-shadow: '0 4px 6px rgba(0"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary)" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round" style="margin-right: 8px"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch how it works</a>
         </div>
-        <div class="hero-stats" id="hero-stats" style={{ marginTop: '54px', gap: '32px' }}>
-          <div class="stat-item" style={{ flexDirection: 'row', alignItems: 'center', gap: '12px' }}>
+        <div class="hero-stats" id="hero-stats" style="margin-top: 54px; gap: 32px">
+          <div class="stat-item" style="flex-direction: row; align-items: center; gap: 12px">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span class="stat-num" style={{ fontSize: '20px', color: '#111827' }}>$0.01</span>
-              <span class="stat-label" style={{ color: '#6b7280', fontSize: '13px' }}>Cost per view</span>
+            <div style="display: flex; flex-direction: column">
+              <span class="stat-num" style="font-size: 20px; color: #111827">$0.01</span>
+              <span class="stat-label" style="color: #6b7280; font-size: 13px">Cost per view</span>
             </div>
           </div>
-          <div class="stat-divider" style={{ height: '40px', background: 'rgba(0,0,0,0.08)' }}></div>
-          <div class="stat-item" style={{ flexDirection: 'row', alignItems: 'center', gap: '12px' }}>
+          <div class="stat-divider" style="height: 40px; background: 'rgba(0"></div>
+          <div class="stat-item" style="flex-direction: row; align-items: center; gap: 12px">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span class="stat-num" style={{ fontSize: '20px', color: '#111827' }}>125M+</span>
-              <span class="stat-label" style={{ color: '#6b7280', fontSize: '13px' }}>Views delivered</span>
+            <div style="display: flex; flex-direction: column">
+              <span class="stat-num" style="font-size: 20px; color: #111827">125M+</span>
+              <span class="stat-label" style="color: #6b7280; font-size: 13px">Views delivered</span>
             </div>
           </div>
-          <div class="stat-divider" style={{ height: '40px', background: 'rgba(0,0,0,0.08)' }}></div>
-          <div class="stat-item" style={{ flexDirection: 'row', alignItems: 'center', gap: '12px' }}>
+          <div class="stat-divider" style="height: 40px; background: 'rgba(0"></div>
+          <div class="stat-item" style="flex-direction: row; align-items: center; gap: 12px">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span class="stat-num" style={{ fontSize: '20px', color: '#111827' }}>500+</span>
-              <span class="stat-label" style={{ color: '#6b7280', fontSize: '13px' }}>Family Creators</span>
+            <div style="display: flex; flex-direction: column">
+              <span class="stat-num" style="font-size: 20px; color: #111827">500+</span>
+              <span class="stat-label" style="color: #6b7280; font-size: 13px">Family Creators</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- RIGHT: PHONE MOCKUP & POLAROIDS -->
-      <div class="hero-alfan-phones" id="hero-visual" style={{ position: 'relative' }}>
+      <div class="hero-alfan-phones" id="hero-visual" style="position: relative">
         
-        {/* Floating elements to match the reference */}
-        <div style={{ position: 'absolute', top: '-40px', left: '-60px', width: '160px', background: 'white', padding: '8px', paddingBottom: '24px', borderRadius: '12px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', transform: 'rotate(-6deg)', zIndex: 10 }}>
-          <img src="/images/polaroid-1.png" alt="Kids in nature" style={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
+        <!-- Floating elements to match the reference -->
+        <div style="position: absolute; top: -40px; left: -60px; width: 160px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(-6deg); z-index: 10">
+          <img src="/images/polaroid-1.png" alt="Kids in nature" style="width: 100%; height: auto; border-radius: 4px;" />
         </div>
 
-        <div style={{ position: 'absolute', bottom: '40px', right: '-80px', width: '180px', background: 'white', padding: '8px', paddingBottom: '24px', borderRadius: '12px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', transform: 'rotate(8deg)', zIndex: 30 }}>
-          <img src="/images/polaroid-3.png" alt="Girl cooking" style={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
+        <div style="position: absolute; bottom: 40px; right: -80px; width: 180px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: '0 20px 40px rgba(0; transform: rotate(8deg); z-index: 30">
+          <img src="/images/polaroid-3.png" alt="Girl cooking" style="width: 100%; height: auto; border-radius: 4px" />
         </div>
 
-        <div style={{ position: 'absolute', top: '60px', right: '-40px', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', padding: '12px 16px', borderRadius: '16px', boxShadow: '0 15px 30px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', zIndex: 40 }}>
-           <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#f43f5e', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', marginBottom: '4px' }}>
+        <div style="position: absolute; top: 60px; right: -40px; background: 'rgba(255; backdrop-filter: blur(10px); padding: 12px 16px; border-radius: 16px; box-shadow: '0 15px 30px rgba(0; display: flex; flex-direction: column; align-items: center; gap: 4px; z-index: 40">
+           <div style="width: 32px; height: 32px; border-radius: 50%; background: #f43f5e; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 4px">
              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
            </div>
-           <span style={{ fontWeight: 800, fontSize: '18px', color: '#111827', lineHeight: 1 }}>210K+</span>
-           <span style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', textAlign: 'center', lineHeight: 1.2 }}>Successful<br/>Campaigns</span>
+           <span style="font-weight: 800; font-size: 18px; color: #111827; line-height: 1">210K+</span>
+           <span style="font-size: 10px; font-weight: 700; color: #6b7280; text-align: center; line-height: 1.2">Successful<br/>Campaigns</span>
         </div>
 
         <div class="phone-back">
