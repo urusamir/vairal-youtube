@@ -9,7 +9,7 @@ import { Campaign, mockCampaigns, readLocalCampaigns } from "@/models/campaign.t
 import { fetchCampaigns } from "@/services";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Share2, Download, PlayCircle, Award } from "lucide-react";
+import { ArrowLeft, Share2, Download, PlayCircle, Award, Pencil } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 import { useReportingOverrides } from "@/providers/reporting-overrides.provider";
@@ -318,22 +318,20 @@ export default function ReportDetailPage() {
               </div>
             </div>
             
-            <div className="flex flex-col items-end gap-3">
-              <div className="flex items-center gap-3">
-                <Button variant="outline" className="bg-white/50 border-slate-200 hover:bg-white text-slate-700">
-                  <Share2 className="w-4 h-4 mr-2" /> Share
-                </Button>
-                <Button 
-                  onClick={() => window.print()}
-                  className="bg-[#4f46e5] hover:bg-[#4338ca] text-white shadow-lg shadow-[#4f46e5]/20"
-                >
-                  <Download className="w-4 h-4 mr-2" /> Export PDF
-                </Button>
-              </div>
-              <Button variant="ghost" asChild className="text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 h-8">
+            <div className="flex items-center gap-3">
+              <Button variant="outline" asChild className="bg-white/50 border-slate-200 hover:bg-white text-slate-700">
                 <Link href={`/dashboard/settings?tab=manual&campaign=${campaign.id}`}>
-                  Enter data manually
+                  <Pencil className="w-4 h-4 mr-2" /> Enter data manually
                 </Link>
+              </Button>
+              <Button variant="outline" className="bg-white/50 border-slate-200 hover:bg-white text-slate-700">
+                <Share2 className="w-4 h-4 mr-2" /> Share
+              </Button>
+              <Button 
+                onClick={() => window.print()}
+                className="bg-[#f97316] hover:bg-[#ea580c] text-white shadow-lg shadow-[#f97316]/20"
+              >
+                <Download className="w-4 h-4 mr-2" /> Export PDF
               </Button>
             </div>
           </div>
