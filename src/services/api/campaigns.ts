@@ -117,6 +117,11 @@ export async function createCampaignInDb(campaign: any, userId: string): Promise
 }
 
 export async function updateCampaignInDb(id: string, updatedFields: any): Promise<boolean> {
+  if (id.startsWith("camp-")) {
+    console.log("[updateCampaignInDb] Skipping mock campaign update for:", id);
+    return true; // Mock campaign, don't attempt to update in real DB
+  }
+
   try {
     const payload: any = {};
     if (updatedFields.name !== undefined) payload.name = updatedFields.name;
@@ -158,6 +163,11 @@ export async function updateCampaignInDb(id: string, updatedFields: any): Promis
 }
 
 export async function deleteCampaignInDb(id: string): Promise<boolean> {
+  if (id.startsWith("camp-")) {
+    console.log("[deleteCampaignInDb] Skipping mock campaign deletion for:", id);
+    return true; // Mock campaign, don't attempt to delete from real DB
+  }
+
   try {
     const { error } = await supabase.from("vairal_campaigns").delete().eq("id", id);
     if (error) {
