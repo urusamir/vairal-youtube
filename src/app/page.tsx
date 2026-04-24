@@ -187,17 +187,17 @@ export default function LandingPage() {
       <div class="hero-alfan-phones" id="hero-visual">
         <div style="position: relative; width: 240px; height: 460px;">
           <!-- Polaroid 1 (Kids in nature) -->
-          <div style="position: absolute; top: 120px; right: -80px; width: 150px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(10deg); z-index: 20">
+          <div style="position: absolute; top: 120px; right: -120px; width: 150px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(10deg); z-index: 20">
             <img src="/images/polaroid-1.png" alt="Kids in nature" style="width: 100%; height: auto; border-radius: 4px;" loading="eager" fetchpriority="high" decoding="async" />
           </div>
 
           <!-- Polaroid 2 (Girl cooking) -->
-          <div style="position: absolute; top: 260px; right: -50px; width: 160px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(-6deg); z-index: 30">
+          <div style="position: absolute; top: 260px; right: -90px; width: 160px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(-6deg); z-index: 30">
             <img src="/images/polaroid-3.png" alt="Girl cooking" style="width: 100%; height: auto; border-radius: 4px" loading="eager" fetchpriority="high" decoding="async" />
           </div>
 
           <!-- 210K+ Successful Campaigns Card -->
-          <div style="position: absolute; top: 380px; right: -70px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 12px 16px; border-radius: 16px; box-shadow: 0 15px 30px rgba(0,0,0,0.08); display: flex; flex-direction: column; align-items: center; gap: 4px; z-index: 40">
+          <div style="position: absolute; top: 380px; right: -110px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 12px 16px; border-radius: 16px; box-shadow: 0 15px 30px rgba(0,0,0,0.08); display: flex; flex-direction: column; align-items: center; gap: 4px; z-index: 40">
              <div style="width: 32px; height: 32px; border-radius: 50%; background: #f43f5e; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 4px">
                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
              </div>
@@ -206,7 +206,7 @@ export default function LandingPage() {
           </div>
 
           <!-- Cost per view Card -->
-          <div class="hero-float-card" id="floating-card-1" style="position: absolute; top: 20px; right: -60px; background: white; border-radius: 14px; padding: 12px 14px; display: flex; align-items: flex-start; gap: 8px; box-shadow: 0 12px 40px rgba(0,0,0,0.25); z-index: 10;">
+          <div class="hero-float-card" id="floating-card-1" style="position: absolute; top: 20px; right: -100px; background: white; border-radius: 14px; padding: 12px 14px; display: flex; align-items: flex-start; gap: 8px; box-shadow: 0 12px 40px rgba(0,0,0,0.25); z-index: 10;">
             <div class="hfc-icon-wrap" style="background: rgba(70,113,246,0.1); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4671F6" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
             <div>
               <div class="hfc-label" style="font-size: 10px; color: #6b7280; font-weight: 500;">Cost per view</div>
