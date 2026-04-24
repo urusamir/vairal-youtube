@@ -18,7 +18,7 @@ import {
   Venus, Star, Globe2, Building2, Phone, Camera, Plane,
   Utensils, Car, Coffee, Dumbbell,
   ChevronDown, ArrowUp, ArrowDown,
-  ListPlus, Plus, Check,
+  ListPlus, Plus, Check, SlidersHorizontal,
 } from "lucide-react";
 import {
   FaInstagram, FaYoutube, FaTiktok, FaFacebook, FaSnapchatGhost,
@@ -1343,14 +1343,14 @@ export default function DiscoverPage() {
   }));
 
   const platformItems = [
-    { label: "Instagram", value: "instagram", count: platformCounts.instagram, icon: <FaInstagram className="w-3.5 h-3.5 text-pink-400" /> },
-    { label: "YouTube", value: "youtube", count: platformCounts.youtube, icon: <FaYoutube className="w-3.5 h-3.5 text-red-500" /> },
-    { label: "TikTok", value: "tiktok", count: platformCounts.tiktok, icon: <FaTiktok className="w-3.5 h-3.5 text-foreground" /> },
-    { label: "Facebook", value: "facebook", count: platformCounts.facebook, icon: <FaFacebook className="w-3.5 h-3.5 text-blue-400" /> },
-    { label: "Snapchat", value: "snapchat", count: platformCounts.snapchat, icon: <FaSnapchatGhost className="w-3.5 h-3.5 text-yellow-400" /> },
+    { label: "Instagram", value: "instagram", count: platformCounts.instagram, icon: <FaInstagram className="w-4 h-4 text-current" /> },
+    { label: "YouTube", value: "youtube", count: platformCounts.youtube, icon: <FaYoutube className="w-4 h-4 text-current" /> },
+    { label: "TikTok", value: "tiktok", count: platformCounts.tiktok, icon: <FaTiktok className="w-4 h-4 text-current" /> },
+    { label: "Facebook", value: "facebook", count: platformCounts.facebook, icon: <FaFacebook className="w-4 h-4 text-current" /> },
+    { label: "Snapchat", value: "snapchat", count: platformCounts.snapchat, icon: <FaSnapchatGhost className="w-4 h-4 text-current" /> },
     {
       label: "X", value: "twitter", count: platformCounts.twitter, icon: (
-        <svg className="w-3.5 h-3.5 text-foreground" viewBox="0 0 24 24" fill="currentColor">
+        <svg className="w-4 h-4 text-current" viewBox="0 0 24 24" fill="currentColor">
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.631L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
         </svg>
       )
@@ -1445,14 +1445,57 @@ export default function DiscoverPage() {
                 <div className="pr-1">
                   <Card className="p-6 rounded-3xl bg-white border border-slate-100 shadow-[0_18px_60px_rgba(31,41,55,0.06)]" data-testid="card-filters">
 
+                    {/* Filters Header */}
+                    <div className="flex items-center justify-between mb-8">
+                      <h2 className="font-serif text-2xl text-slate-900">Filters</h2>
+                      <SlidersHorizontal className="w-5 h-5 text-slate-500" />
+                    </div>
+
                     {/* ── Social Platforms ── */}
-                    <div className="mb-5">
-                      <FilterGroup title="Platform" items={platformItems} selected={selectedPlatforms} onChange={setSelectedPlatforms} />
+                    <div className="mb-8">
+                      <h3 className="text-[11px] uppercase tracking-[0.15em] font-bold text-slate-500 mb-4">Platform</h3>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          onClick={() => setSelectedPlatforms([])}
+                          className={`px-5 py-2.5 rounded-2xl text-sm font-semibold transition-colors flex items-center justify-center ${selectedPlatforms.length === 0 ? 'bg-slate-900 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                        >
+                          All
+                        </button>
+                        {platformItems.map(item => (
+                          <button
+                            key={item.value}
+                            onClick={() => {
+                              setSelectedPlatforms(prev => 
+                                prev.includes(item.value) ? prev.filter(p => p !== item.value) : [...prev, item.value]
+                              )
+                            }}
+                            className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-colors ${selectedPlatforms.includes(item.value) ? 'bg-slate-900 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                            title={item.label}
+                          >
+                            {item.icon}
+                          </button>
+                        ))}
+                      </div>
                     </div>
 
                     {/* ── Categories ── */}
-                    <div className="mb-5 border-t border-slate-100 pt-5">
-                      <FilterGroup title="Category" items={categoryItems} selected={selectedCategories} onChange={setSelectedCategories} />
+                    <div className="mb-8">
+                      <h3 className="text-[11px] uppercase tracking-[0.15em] font-bold text-slate-500 mb-4">Category</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {categoryItems.map(item => (
+                          <button
+                            key={item.value}
+                            onClick={() => {
+                              setSelectedCategories(prev => 
+                                prev.includes(item.value) ? prev.filter(c => c !== item.value) : [...prev, item.value]
+                              )
+                            }}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${selectedCategories.includes(item.value) ? 'bg-slate-900 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                          >
+                            {item.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
 
                     {/* ── Followers Range ── */}

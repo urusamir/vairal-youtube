@@ -42,20 +42,26 @@ const formatCurrency = (num: number) => {
 };
 
 // Mock data generator for the chart
-const generateChartData = (campaignId: string) => {
+const generateChartData = (campaignId: string, startDate?: string) => {
   const seed = hashCode(campaignId);
   const data = [];
   let y = 30000 + seededRandom(seed) * 20000;
   let i = 20000 + seededRandom(seed + 1) * 10000;
   let t = 50000 + seededRandom(seed + 2) * 30000;
   
-  for (let day = 10; day <= 28; day++) {
-    y += Math.sin(day + seededRandom(seed + day)) * 10000 + 5000;
-    i += Math.cos(day + seededRandom(seed + day + 1)) * 8000 + 3000;
-    t += Math.sin(day * 2 + seededRandom(seed + day + 2)) * 15000 + 8000;
+  const start = startDate ? new Date(startDate) : new Date("2026-02-10");
+  
+  for (let week = 1; week <= 8; week++) {
+    y += Math.sin(week + seededRandom(seed + week)) * 10000 + 5000;
+    i += Math.cos(week + seededRandom(seed + week + 1)) * 8000 + 3000;
+    t += Math.sin(week * 2 + seededRandom(seed + week + 2)) * 15000 + 8000;
+    
+    const weekDate = new Date(start);
+    weekDate.setDate(weekDate.getDate() + (week - 1) * 7);
+    const dateLabel = weekDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     
     data.push({
-      date: `Feb ${day}`,
+      date: dateLabel,
       youtube: Math.max(0, Math.floor(y)),
       instagram: Math.max(0, Math.floor(i)),
       tiktok: Math.max(0, Math.floor(t)),
@@ -68,7 +74,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-4 border border-slate-100 shadow-xl rounded-xl text-sm">
-        <p className="font-semibold text-slate-800 mb-3">{label}, 2026</p>
+        <p className="font-semibold text-slate-800 mb-3">{label}</p>
         {payload.map((entry: any, index: number) => (
           <div key={`item-${index}`} className="flex items-center gap-2 mb-1">
             <span className="capitalize text-slate-500 w-20" style={{ color: entry.color }}>{entry.name} :</span>
@@ -112,7 +118,7 @@ export default function ReportDetailPage() {
 
   const chartData = useMemo(() => {
     if (!campaign) return [];
-    return generateChartData(campaign.id);
+    return generateChartData(campaign.id, campaign.startDate);
   }, [campaign]);
 
   // Dynamic metrics derived from campaign
@@ -129,15 +135,36 @@ export default function ReportDetailPage() {
     const engagements = views * (0.01 + seededRandom(seed + 3) * 0.08);
     const cpm = (budget / views) * 1000;
     
+    const thumbnails = [
+      "/images/mock/thumbnails/thumbnail_fashion.png",
+      "/images/mock/thumbnails/thumbnail_skincare.png",
+      "/images/mock/thumbnails/thumbnail_lifestyle.png"
+    ];
+    let thumbIndex = 0;
+
+    const titleTemplates = [
+      "Hands-On: [Campaign]",
+      "The Truth About [Campaign]",
+      "I Tried [Campaign] So You Don't Have To",
+      "[Campaign] — Full Review & Unboxing",
+      "Why I Love [Campaign] (Honest Thoughts)",
+      "Behind the Scenes: [Campaign]",
+      "[Campaign] Test Drive!",
+      "My Final Verdict on [Campaign]"
+    ];
+
     // Generate dynamic assets based on selectedCreators
     const assets: any[] = [];
     campaign.selectedCreators?.forEach(creator => {
       creator.deliverables?.forEach((del, i) => {
         const dSeed = hashCode(del.id + i);
         const aViews = views * (0.1 + seededRandom(dSeed) * 0.3); // share of views
+        const template = titleTemplates[thumbIndex % titleTemplates.length];
+        const videoTitle = template.replace("[Campaign]", campaign.name);
         assets.push({
-          title: `${campaign.name} — ${del.contentDetails}`,
+          title: videoTitle,
           creator: creator.creatorId,
+          thumbnail: thumbnails[thumbIndex % thumbnails.length],
           views: formatNumber(aViews),
           likes: formatNumber(aViews * 0.05),
           comments: formatNumber(aViews * 0.005),
@@ -146,6 +173,7 @@ export default function ReportDetailPage() {
           rawViews: aViews,
           rawEng: (aViews * 0.05) + (aViews * 0.005)
         });
+        thumbIndex++;
       });
     });
 
@@ -216,7 +244,7 @@ export default function ReportDetailPage() {
       </Link>
 
         {/* Hero Card */}
-        <Card className="bg-[#FAF8F5] border-slate-200/60 shadow-sm rounded-3xl p-8 lg:p-12 mb-6 relative overflow-hidden">
+        <Card className="bg-white border-slate-200/60 shadow-sm rounded-3xl p-8 lg:p-12 mb-6 relative overflow-hidden print:break-inside-avoid">
           <div className="flex items-start justify-between">
             <div>
               <div className="flex items-center gap-4 mb-6">
@@ -295,7 +323,7 @@ export default function ReportDetailPage() {
         </Card>
 
         {/* Chart Section */}
-        <Card className="bg-white border-slate-200 shadow-sm rounded-3xl p-8 mb-12">
+        <Card className="bg-white border-slate-200 shadow-sm rounded-3xl p-8 mb-12 print:break-inside-avoid">
           <div className="flex items-start justify-between mb-8">
             <div>
               <h3 className="font-serif text-2xl text-slate-900 mb-1">Performance over time</h3>
@@ -346,12 +374,13 @@ export default function ReportDetailPage() {
           
           <div className="divide-y divide-slate-100">
             {dynamicMetrics?.assets.length ? dynamicMetrics.assets.map((asset, i) => (
-              <div key={i} className="p-6 px-8 flex items-center gap-8 hover:bg-slate-50/50 transition-colors">
-                <div className="relative w-32 h-20 rounded-lg bg-slate-200 shrink-0 overflow-hidden group cursor-pointer">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-slate-800/80 to-transparent flex items-center justify-center">
-                    <PlayCircle className="w-8 h-8 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all" />
+              <div key={i} className="p-6 px-8 flex items-center gap-8 hover:bg-slate-50/50 transition-colors print:break-inside-avoid">
+                <div className="relative w-32 h-20 rounded-lg bg-slate-900 shrink-0 overflow-hidden group cursor-pointer">
+                  <img src={asset.thumbnail} alt={asset.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/60 via-transparent to-transparent flex items-center justify-center">
+                    <PlayCircle className="w-8 h-8 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all drop-shadow-md" />
                   </div>
-                  <div className="absolute bottom-2 right-2 bg-black/60 rounded px-1.5 py-0.5 text-[9px] text-white font-bold">{asset.avgDuration}</div>
+                  <div className="absolute bottom-1.5 right-1.5 bg-black/80 rounded px-1.5 py-0.5 text-[9px] text-white font-bold tracking-wider">{asset.avgDuration}</div>
                 </div>
                 
                 <div className="flex-1 min-w-0">
@@ -397,7 +426,7 @@ export default function ReportDetailPage() {
 
         {/* Bottom Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-20">
-          <Card className="bg-[#FAF8F5] border-slate-200/60 shadow-sm rounded-3xl p-8 lg:col-span-2">
+          <Card className="bg-white border-slate-200/60 shadow-sm rounded-3xl p-8 lg:col-span-2 print:break-inside-avoid">
             <h3 className="font-serif text-2xl text-slate-900 mb-8 flex items-center">
               <Award className="w-5 h-5 text-[#4f46e5] mr-2" /> Creator leaderboard
             </h3>
@@ -428,7 +457,7 @@ export default function ReportDetailPage() {
             </div>
           </Card>
 
-          <Card className="bg-white border-slate-200 shadow-sm rounded-3xl p-8">
+          <Card className="bg-white border-slate-200 shadow-sm rounded-3xl p-8 print:break-inside-avoid">
             <h3 className="font-serif text-2xl text-slate-900 mb-6">Comment sentiment</h3>
             <p className="text-xs text-slate-500 mb-8 max-w-[200px]">Across the top 1,000 comments on campaign assets</p>
             
