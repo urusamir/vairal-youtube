@@ -77,7 +77,7 @@ export function AppSidebar() {
                 </Avatar>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" side="right" className="ml-3 w-56">
+            <DropdownMenuContent align="start" side="top" sideOffset={16} className="w-56">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
