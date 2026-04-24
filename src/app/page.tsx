@@ -186,16 +186,18 @@ export default function LandingPage() {
       <!-- RIGHT: PHONE MOCKUP & POLAROIDS -->
       <div class="hero-alfan-phones" id="hero-visual" style="position: relative">
         
-        <!-- Floating elements to match the reference -->
-        <div style="position: absolute; top: -40px; left: -60px; width: 160px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(-6deg); z-index: 10">
+        <!-- Polaroid 1 (Middle Right) -->
+        <div style="position: absolute; top: 100px; right: -120px; width: 150px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(10deg); z-index: 20">
           <img src="/images/polaroid-1.png" alt="Kids in nature" style="width: 100%; height: auto; border-radius: 4px;" />
         </div>
 
-        <div style="position: absolute; bottom: 40px; right: -80px; width: 180px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: '0 20px 40px rgba(0; transform: rotate(8deg); z-index: 30">
+        <!-- Polaroid 2 (Bottom Right) -->
+        <div style="position: absolute; bottom: 80px; right: -100px; width: 160px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(-6deg); z-index: 30">
           <img src="/images/polaroid-3.png" alt="Girl cooking" style="width: 100%; height: auto; border-radius: 4px" />
         </div>
 
-        <div style="position: absolute; top: 60px; right: -40px; background: 'rgba(255; backdrop-filter: blur(10px); padding: 12px 16px; border-radius: 16px; box-shadow: '0 15px 30px rgba(0; display: flex; flex-direction: column; align-items: center; gap: 4px; z-index: 40">
+        <!-- 210K+ Successful Campaigns Card (Bottom right, overlapping polaroid) -->
+        <div style="position: absolute; bottom: 10px; right: -50px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 12px 16px; border-radius: 16px; box-shadow: 0 15px 30px rgba(0,0,0,0.08); display: flex; flex-direction: column; align-items: center; gap: 4px; z-index: 40">
            <div style="width: 32px; height: 32px; border-radius: 50%; background: #f43f5e; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 4px">
              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
            </div>
@@ -203,13 +205,6 @@ export default function LandingPage() {
            <span style="font-size: 10px; font-weight: 700; color: #6b7280; text-align: center; line-height: 1.2">Successful<br/>Campaigns</span>
         </div>
 
-        <div class="phone-back">
-          <div class="phone-back-inner">
-            <div class="phone-back-content">
-              <div class="pbc-label">Campaign preview</div>
-            </div>
-          </div>
-        </div>
         <div class="phone-front">
           <div class="phone-notch"></div>
           <div class="phone-screen">
