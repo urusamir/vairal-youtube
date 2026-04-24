@@ -1,6 +1,6 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, Search, CreditCard, Calendar, Megaphone, LogOut, Activity, KanbanSquare } from "lucide-react";
+import { LayoutDashboard, Search, CreditCard, Calendar, Megaphone, LogOut, BarChart3, KanbanSquare, Settings } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +16,7 @@ const sidebarItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Discover", url: "/dashboard/discover", icon: Search },
   { title: "Campaigns", url: "/dashboard/campaigns", icon: Megaphone },
-  { title: "Reporting", url: "/dashboard/reporting", icon: Activity },
+  { title: "Reporting", url: "/dashboard/reporting", icon: BarChart3 },
 ];
 
 export function AppSidebar() {
@@ -84,6 +84,12 @@ export function AppSidebar() {
                 <Link href="/dashboard/payments" className="w-full flex items-center cursor-pointer">
                   <CreditCard className="w-4 h-4 mr-2" />
                   <span>Payments</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/settings?tab=manual" className="w-full flex items-center cursor-pointer">
+                  <Settings className="w-4 h-4 mr-2" />
+                  <span>Data Import</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />

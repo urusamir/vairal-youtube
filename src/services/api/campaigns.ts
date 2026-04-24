@@ -4,7 +4,7 @@ import { toast } from "@/hooks/use-toast";
 export async function fetchCampaigns(userId: string) {
   try {
     const { data, error } = await supabase
-      .from("campaigns")
+      .from("vairal_campaigns")
       .select("*")
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
@@ -74,7 +74,7 @@ export async function fetchCampaigns(userId: string) {
 export async function createCampaignInDb(campaign: any, userId: string): Promise<any | null> {
   try {
     const { data, error } = await supabase
-      .from("campaigns")
+      .from("vairal_campaigns")
       .insert({
         id: campaign.id,
         user_id: userId,
@@ -144,7 +144,7 @@ export async function updateCampaignInDb(id: string, updatedFields: any): Promis
     if (updatedFields.paymentStatus !== undefined) payload.payment_status = updatedFields.paymentStatus;
     if (updatedFields.receiptData !== undefined) payload.receipt_data = updatedFields.receiptData;
 
-    const { error } = await supabase.from("campaigns").update(payload).eq("id", id);
+    const { error } = await supabase.from("vairal_campaigns").update(payload).eq("id", id);
     if (error) {
       toast({ title: "Campaign Update Failed", description: error.message, variant: "destructive" });
       return false;
@@ -159,7 +159,7 @@ export async function updateCampaignInDb(id: string, updatedFields: any): Promis
 
 export async function deleteCampaignInDb(id: string): Promise<boolean> {
   try {
-    const { error } = await supabase.from("campaigns").delete().eq("id", id);
+    const { error } = await supabase.from("vairal_campaigns").delete().eq("id", id);
     if (error) {
       toast({ title: "Campaign Delete Failed", description: error.message, variant: "destructive" });
       return false;

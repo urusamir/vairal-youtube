@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Share2, Download, PlayCircle, Award } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
+import { useReportingOverrides } from "@/providers/reporting-overrides.provider";
+
 // Simple deterministic hash from string
 const hashCode = (str: string) => {
   let hash = 0;
@@ -93,9 +95,16 @@ export default function ReportDetailPage() {
   const router = useRouter();
   const { user } = useAuth();
   const { showDummy } = useDummyData();
+  const { overrides, loadOverrides, isLoading: isOverridesLoading } = useReportingOverrides();
   
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (id) {
+      loadOverrides(id);
+    }
+  }, [id, loadOverrides]);
 
   useEffect(() => {
     const loadCampaign = async () => {
@@ -121,19 +130,17 @@ export default function ReportDetailPage() {
     return generateChartData(campaign.id, campaign.startDate);
   }, [campaign]);
 
-  // Dynamic metrics derived from campaign
+  // Dynamic metrics derived from campaign + overrides
   const dynamicMetrics = useMemo(() => {
     if (!campaign) return null;
     const seed = hashCode(campaign.id);
     const budget = campaign.totalBudget || 50000;
     
-    // Scale things by budget
+    // Scale things by budget (baseline)
     const roas = 2.5 + seededRandom(seed) * 5; // 2.5x to 7.5x
     const emv = budget * roas;
-    const views = budget * (10 + seededRandom(seed + 1) * 50);
-    const reach = views * (1.2 + seededRandom(seed + 2) * 2);
-    const engagements = views * (0.01 + seededRandom(seed + 3) * 0.08);
-    const cpm = (budget / views) * 1000;
+    const baseViews = budget * (10 + seededRandom(seed + 1) * 50);
+    const cpm = (budget / baseViews) * 1000;
     
     const thumbnails = [
       "/images/mock/thumbnails/thumbnail_fashion.png",
@@ -155,23 +162,65 @@ export default function ReportDetailPage() {
 
     // Generate dynamic assets based on selectedCreators
     const assets: any[] = [];
+    let totalViews = 0;
+    let totalEngagements = 0;
+    let totalReach = 0;
+
     campaign.selectedCreators?.forEach(creator => {
       creator.deliverables?.forEach((del, i) => {
         const dSeed = hashCode(del.id + i);
-        const aViews = views * (0.1 + seededRandom(dSeed) * 0.3); // share of views
         const template = titleTemplates[thumbIndex % titleTemplates.length];
         const videoTitle = template.replace("[Campaign]", campaign.name);
+        
+        // Base numbers
+        const baseAViews = baseViews * (0.1 + seededRandom(dSeed) * 0.3); // share of views
+        
+        // Apply Overrides
+        const o = overrides[del.id] || {};
+        const aViews = o.views !== undefined ? o.views : baseAViews;
+        const aLikes = o.likes !== undefined ? o.likes : aViews * 0.05;
+        const aComments = o.comments !== undefined ? o.comments : aViews * 0.005;
+        const aShares = o.shares !== undefined ? o.shares : aViews * 0.012;
+        const aSaves = o.saves !== undefined ? o.saves : aViews * 0.008;
+        const aReach = o.reach !== undefined ? o.reach : aViews * 1.2;
+        const aEngagements = aLikes + aComments + aShares + aSaves;
+
+        totalViews += aViews;
+        totalEngagements += aEngagements;
+        totalReach += aReach;
+
         assets.push({
+          videoId: del.id,
+          platform: del.platform,
           title: videoTitle,
           creator: creator.creatorId,
           thumbnail: thumbnails[thumbIndex % thumbnails.length],
           views: formatNumber(aViews),
-          likes: formatNumber(aViews * 0.05),
-          comments: formatNumber(aViews * 0.005),
-          avgDuration: `${Math.floor(2 + seededRandom(dSeed + 1) * 10)}:${Math.floor(10 + seededRandom(dSeed + 2) * 40).toString().padStart(2, '0')}`,
+          likes: formatNumber(aLikes),
+          comments: formatNumber(aComments),
+          shares: formatNumber(aShares),
+          saves: formatNumber(aSaves),
+          reach: formatNumber(aReach),
+          avgDuration: o.watchTimeHours !== undefined 
+            ? `${Math.floor(o.watchTimeHours)}:${Math.floor((o.watchTimeHours % 1) * 60).toString().padStart(2, '0')}`
+            : `${Math.floor(2 + seededRandom(dSeed + 1) * 10)}:${Math.floor(10 + seededRandom(dSeed + 2) * 40).toString().padStart(2, '0')}`,
           retention: Math.floor(40 + seededRandom(dSeed + 3) * 40),
           rawViews: aViews,
-          rawEng: (aViews * 0.05) + (aViews * 0.005)
+          rawEng: aEngagements,
+          
+          // Original values to make UI simpler
+          numViews: aViews,
+          numLikes: aLikes,
+          numComments: aComments,
+          numShares: aShares,
+          numSaves: aSaves,
+          numReach: aReach,
+          numImpressions: o.impressions !== undefined ? o.impressions : aReach * 1.5,
+          numFollowsGained: o.followsGained !== undefined ? o.followsGained : aViews * 0.001,
+          numProfileVisits: o.profileVisits !== undefined ? o.profileVisits : aViews * 0.005,
+          numLinkClicks: o.linkClicks !== undefined ? o.linkClicks : aViews * 0.002,
+          numWatchTimeHours: o.watchTimeHours !== undefined ? o.watchTimeHours : (aViews * 3) / 60,
+          audience: o.audience || {},
         });
         thumbIndex++;
       });
@@ -207,9 +256,9 @@ export default function ReportDetailPage() {
     const neutral = 100 - positive - negative;
 
     return {
-      reach: formatNumber(reach),
-      views: formatNumber(views),
-      engagements: formatNumber(engagements),
+      reach: formatNumber(totalReach),
+      views: formatNumber(totalViews),
+      engagements: formatNumber(totalEngagements),
       emv: formatCurrency(emv),
       cpm: formatCurrency(cpm),
       roas: roas.toFixed(1) + "×",
@@ -218,7 +267,7 @@ export default function ReportDetailPage() {
       sentiment: { positive, neutral, negative },
       themes: shuffledThemes.slice(0, 6)
     };
-  }, [campaign]);
+  }, [campaign, overrides]);
 
   if (isLoading) {
     return <div className="p-10 text-slate-500">Loading report...</div>;
@@ -269,15 +318,22 @@ export default function ReportDetailPage() {
               </div>
             </div>
             
-            <div className="flex items-center gap-3">
-              <Button variant="outline" className="bg-white/50 border-slate-200 hover:bg-white text-slate-700">
-                <Share2 className="w-4 h-4 mr-2" /> Share
-              </Button>
-              <Button 
-                onClick={() => window.print()}
-                className="bg-[#4f46e5] hover:bg-[#4338ca] text-white shadow-lg shadow-[#4f46e5]/20"
-              >
-                <Download className="w-4 h-4 mr-2" /> Export PDF
+            <div className="flex flex-col items-end gap-3">
+              <div className="flex items-center gap-3">
+                <Button variant="outline" className="bg-white/50 border-slate-200 hover:bg-white text-slate-700">
+                  <Share2 className="w-4 h-4 mr-2" /> Share
+                </Button>
+                <Button 
+                  onClick={() => window.print()}
+                  className="bg-[#4f46e5] hover:bg-[#4338ca] text-white shadow-lg shadow-[#4f46e5]/20"
+                >
+                  <Download className="w-4 h-4 mr-2" /> Export PDF
+                </Button>
+              </div>
+              <Button variant="ghost" asChild className="text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 h-8">
+                <Link href={`/dashboard/settings?tab=manual&campaign=${campaign.id}`}>
+                  Enter data manually
+                </Link>
               </Button>
             </div>
           </div>

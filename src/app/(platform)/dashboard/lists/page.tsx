@@ -217,7 +217,7 @@ export function ListsPanel({ hideHeader }: { hideHeader?: boolean }) {
                 onClick={handleCreate}
                 disabled={isCreating || !newListName.trim()}
                 data-testid="button-create-list"
-                className="rounded-full bg-indigo-400 hover:bg-indigo-500 text-white shadow-none h-10 px-5"
+                className="rounded-full h-10 px-5"
               >
                 <Plus className="w-4 h-4 mr-1.5" />
                 Create

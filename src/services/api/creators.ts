@@ -1,10 +1,37 @@
 import { supabase } from "../supabase";
 import { toast } from "@/hooks/use-toast";
 
+const LOCAL_SAVED_CREATORS_KEY = "vairal_local_saved_creators";
+
+function isDummyMode(): boolean {
+  if (typeof window === "undefined") return false;
+  const stored = window.localStorage.getItem("vairal-dummy-mode");
+  return stored === null || stored === "true"; // defaults to true
+}
+
+function readLocalSavedCreators(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(LOCAL_SAVED_CREATORS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalSavedCreators(usernames: string[]) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(LOCAL_SAVED_CREATORS_KEY, JSON.stringify(usernames));
+}
+
 export async function fetchSavedCreators(userId: string): Promise<string[]> {
+  if (isDummyMode()) {
+    return readLocalSavedCreators();
+  }
+
   try {
     const { data, error } = await supabase
-      .from("saved_creators")
+      .from("vairal_saved_creators")
       .select("creator_username")
       .eq("user_id", userId);
 
@@ -30,6 +57,18 @@ export async function saveCreator(
     categories?: string[];
   }
 ): Promise<boolean> {
+  if (isDummyMode()) {
+    const current = readLocalSavedCreators();
+    if (!current.includes(creator.username)) {
+      writeLocalSavedCreators([...current, creator.username]);
+    }
+    toast({ title: "Creator Saved", description: `Added @${creator.username} to your saved creators.` });
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("vairal-creators-updated", { detail: { type: "save", username: creator.username }}));
+    }
+    return true;
+  }
+
   try {
     const payload = {
       user_id: userId,
@@ -42,7 +81,7 @@ export async function saveCreator(
     };
 
     const { data, error } = await supabase
-      .from("saved_creators")
+      .from("vairal_saved_creators")
       .insert(payload)
       .select();
 
@@ -58,12 +97,13 @@ export async function saveCreator(
 
     if (!data || data.length === 0) {
       console.warn("[saveCreator] Insert returned no data — possible SELECT RLS block. Proceeding optimistically.");
-      // We will still dispatch an event so the UI updates
     } else {
       toast({ title: "Creator Saved", description: `Added @${creator.username} to your saved creators.` });
     }
 
-    window.dispatchEvent(new CustomEvent("vairal-creators-updated", { detail: { type: "save", username: creator.username }}));
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("vairal-creators-updated", { detail: { type: "save", username: creator.username }}));
+    }
     return true;
   } catch (err: any) {
     console.error("[saveCreator] Exception:", err);
@@ -73,9 +113,18 @@ export async function saveCreator(
 }
 
 export async function unsaveCreator(userId: string, username: string): Promise<boolean> {
+  if (isDummyMode()) {
+    const current = readLocalSavedCreators();
+    writeLocalSavedCreators(current.filter((u) => u !== username));
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("vairal-creators-updated", { detail: { type: "unsave", username }}));
+    }
+    return true;
+  }
+
   try {
     const { error } = await supabase
-      .from("saved_creators")
+      .from("vairal_saved_creators")
       .delete()
       .eq("user_id", userId)
       .eq("creator_username", username);
@@ -86,7 +135,9 @@ export async function unsaveCreator(userId: string, username: string): Promise<b
       return false;
     }
 
-    window.dispatchEvent(new CustomEvent("vairal-creators-updated", { detail: { type: "unsave", username }}));
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("vairal-creators-updated", { detail: { type: "unsave", username }}));
+    }
     return true;
   } catch (err: any) {
     console.error("[unsaveCreator] Exception:", err);
@@ -94,4 +145,3 @@ export async function unsaveCreator(userId: string, username: string): Promise<b
     return false;
   }
 }
-
