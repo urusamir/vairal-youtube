@@ -329,7 +329,7 @@ export default function ReportDetailPage() {
               </Button>
               <Button 
                 onClick={() => window.print()}
-                className="bg-[#f97316] hover:bg-[#ea580c] text-white shadow-lg shadow-[#f97316]/20"
+                className="bg-[#4f46e5] hover:bg-[#4338ca] text-white shadow-lg shadow-[#4f46e5]/20"
               >
                 <Download className="w-4 h-4 mr-2" /> Export PDF
               </Button>
