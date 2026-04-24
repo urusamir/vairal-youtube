@@ -12,8 +12,8 @@
   --bg: #13161B;
   --bg-card: #1a1e26;
   --bg-card2: #1f2430;
-  --bg-cream: #F0EAE2;
-  --bg-cream-inner: #E5DDD5;
+  --bg-cream: #F4F7FF;
+  --bg-cream-inner: #EAEFFF;
   --text-primary: #f0f2f8;
   --text-secondary: #8b92a5;
   --text-dim: #555c70;
@@ -29,11 +29,11 @@
   --font: 'Montserrat', sans-serif;
   --shadow: 0 20px 60px rgba(0,0,0,0.4);
   --glow: 0 0 40px rgba(70,113,246,0.2);
-  --nav-bg: rgba(19, 22, 27, 0.92);
+  --nav-bg: rgba(255, 255, 255, 0.92);
   --menu-bg: rgba(19, 22, 27, 0.98);
 }
 
-[data-theme="light"] {
+html:not(.dark) {
   --bg: #F8FAFC;
   --bg-card: #FFFFFF;
   --bg-card2: #F1F5F9;
@@ -127,6 +127,20 @@ body {
   box-shadow: 0 8px 30px rgba(70,113,246,0.35);
 }
 .btn-campaign:hover { background: #3560e0; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(70,113,246,0.45); }
+.btn-login-outline {
+  font-weight: 600;
+  padding: 8px 16px;
+  color: var(--primary);
+  text-decoration: none;
+  border-radius: var(--radius-btn);
+  transition: all 0.25s ease;
+  background: transparent;
+}
+.btn-login-outline:hover {
+  background: var(--primary-dim);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
 
 /* ---- NAVIGATION ---- */
 .nav {

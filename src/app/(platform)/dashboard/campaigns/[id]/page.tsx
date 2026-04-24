@@ -206,77 +206,168 @@ export default function CampaignWorkspace() {
 
           <TabsContent value="overview" className="space-y-6 outline-none">
             {/* KPI Cards */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              <Card className="p-5 shadow-sm border-slate-100">
-                <div className="mb-2 flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-slate-500">Total Budget</h3>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                    <DollarSign className="h-4 w-4" />
+            <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-5">
+              {/* Total Budget */}
+              <Card className="relative overflow-hidden p-5 shadow-sm border-slate-100 flex flex-col justify-between min-h-[140px]">
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <h3 className="text-sm font-medium text-slate-500">Total Budget</h3>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                      <DollarSign className="h-4 w-4" />
+                    </div>
+                  </div>
+                  <div className="text-2xl font-black text-slate-900 mt-2">
+                    {campaign.currency} {campaign.totalBudget.toLocaleString()}
                   </div>
                 </div>
-                <div className="text-2xl font-black text-slate-900">
-                  {campaign.currency} {campaign.totalBudget.toLocaleString()}
+                <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-emerald-100/50 to-transparent">
+                  <svg className="absolute bottom-0 w-full h-8 text-emerald-400" preserveAspectRatio="none" viewBox="0 0 100 100">
+                    <path d="M0,100 L0,50 Q25,20 50,60 T100,20 L100,100 Z" fill="currentColor" fillOpacity="0.2" />
+                    <path d="M0,50 Q25,20 50,60 T100,20" fill="none" stroke="currentColor" strokeWidth="3" />
+                  </svg>
                 </div>
               </Card>
 
-              <Card className="p-5 shadow-sm border-slate-100">
-                <div className="mb-2 flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-slate-500">Timeline</h3>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                    <Calendar className="h-4 w-4" />
+              {/* Timeline */}
+              <Card className="relative overflow-hidden p-5 shadow-sm border-slate-100 flex flex-col justify-between min-h-[140px]">
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <h3 className="text-sm font-medium text-slate-500">Timeline</h3>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                      <Calendar className="h-4 w-4" />
+                    </div>
+                  </div>
+                  <div className="text-sm font-bold text-slate-900 mt-2">
+                    {campaign.startDate} to {campaign.endDate}
                   </div>
                 </div>
-                <div className="text-base font-bold text-slate-900">
-                  {campaign.startDate} to {campaign.endDate}
+                <div className="absolute bottom-4 left-5 right-5">
+                  <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
+                    <div className="h-full rounded-full bg-violet-500 w-[60%]" />
+                  </div>
                 </div>
               </Card>
 
-              <Card className="p-5 shadow-sm border-slate-100">
-                <div className="mb-2 flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-slate-500">Selected Creators</h3>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-violet-50 text-violet-600">
-                    <Users className="h-4 w-4" />
+              {/* Selected Creators */}
+              <Card className="relative overflow-hidden p-5 shadow-sm border-slate-100 flex flex-col justify-between min-h-[140px]">
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <h3 className="text-sm font-medium text-slate-500">Selected Creators</h3>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-violet-50 text-violet-600">
+                      <Users className="h-4 w-4" />
+                    </div>
+                  </div>
+                  <div className="text-2xl font-black text-slate-900 mt-2">
+                    {campaign.selectedCreators?.length || 0}
                   </div>
                 </div>
-                <div className="text-2xl font-black text-slate-900">
-                  {campaign.selectedCreators?.length || 0}
+                <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between">
+                  <div className="flex -space-x-2">
+                    {campaign.selectedCreators?.slice(0, 3).map((c, i) => (
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+                        <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${c.creatorId}`} alt="Avatar" className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                    {(campaign.selectedCreators?.length || 0) > 3 && (
+                      <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-600">
+                        +{(campaign.selectedCreators?.length || 0) - 3}
+                      </div>
+                    )}
+                  </div>
+                  <button onClick={() => router.push(`/dashboard/campaigns/wizard?id=${campaign.id}&step=3`)} className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-colors">
+                    <span className="text-lg font-light leading-none">+</span>
+                  </button>
                 </div>
               </Card>
 
-              <Card className="p-5 shadow-sm border-slate-100">
-                <div className="mb-2 flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-slate-500">Briefs</h3>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-600">
-                    <FileText className="h-4 w-4" />
+              {/* Briefs */}
+              <Card className="relative overflow-hidden p-5 shadow-sm border-slate-100 flex flex-col justify-between min-h-[140px] bg-gradient-to-br from-white to-amber-50/30">
+                <div className="relative z-10">
+                  <div className="mb-2 flex items-center justify-between">
+                    <h3 className="text-sm font-medium text-slate-500">Briefs</h3>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+                      <FileText className="h-4 w-4" />
+                    </div>
+                  </div>
+                  <div className="text-2xl font-black text-slate-900 mt-2">
+                    {campaign.briefs?.length || 0}
                   </div>
                 </div>
-                <div className="text-2xl font-black text-slate-900">
-                  {campaign.briefs?.length || 0}
+                <img 
+                  src="/images/campaigns/icon_briefs_1777029977791.png" 
+                  alt="Briefs" 
+                  className="absolute -bottom-4 -right-4 w-28 h-28 object-contain opacity-90 transition-transform hover:scale-110"
+                />
+              </Card>
+
+              {/* Deliverables */}
+              <Card className="relative overflow-hidden p-5 shadow-sm border-slate-100 flex flex-col justify-between min-h-[140px] bg-gradient-to-br from-white to-blue-50/30">
+                <div className="relative z-10">
+                  <div className="mb-2 flex items-center justify-between">
+                    <h3 className="text-sm font-medium text-slate-500">Deliverables</h3>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                      <LayoutDashboard className="h-4 w-4" />
+                    </div>
+                  </div>
+                  <div className="text-2xl font-black text-slate-900 mt-2">
+                    {campaign.deliverables?.length || 0}
+                  </div>
                 </div>
+                <img 
+                  src="/images/campaigns/icon_deliverables_1777029993966.png" 
+                  alt="Deliverables" 
+                  className="absolute -bottom-4 -right-4 w-28 h-28 object-contain opacity-90 transition-transform hover:scale-110"
+                />
               </Card>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-2">
-              <Card className="p-6 shadow-sm border-slate-100">
-                <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <Target className="h-5 w-5 text-violet-500" />
+            <div className="grid gap-6 lg:grid-cols-3">
+              <Card className="lg:col-span-2 p-8 shadow-sm border-slate-100 flex flex-col justify-center relative overflow-hidden bg-white">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-violet-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-50" />
+                <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 relative z-10">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-violet-100 text-violet-600">
+                    <Target className="h-5 w-5" />
+                  </div>
                   Campaign Objective
                 </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  We are promoting <strong>{campaign.product}</strong> for <strong>{campaign.brand}</strong>.
-                  The primary goal is <strong>{campaign.goal}</strong> across {campaign.platforms.join(", ")}.
+                <p className="text-lg text-slate-700 leading-relaxed mb-8 relative z-10 max-w-3xl">
+                  We are promoting <span className="font-bold text-slate-900">{campaign.product}</span> for <span className="font-bold text-slate-900">{campaign.brand}</span>.
+                  The primary goal is to drive <span className="font-bold text-violet-600">{campaign.goal}</span> across targeted digital platforms.
                 </p>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3 relative z-10">
                   {campaign.platforms.map((p) => (
-                    <span key={p} className="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+                    <span key={p} className="rounded-full bg-slate-100 border border-slate-200 px-4 py-1.5 text-sm font-semibold text-slate-700 shadow-sm hover:border-violet-200 transition-colors cursor-default">
                       {p}
                     </span>
                   ))}
                   {campaign.countries?.map((c) => (
-                    <span key={c} className="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+                    <span key={c} className="rounded-full bg-slate-100 border border-slate-200 px-4 py-1.5 text-sm font-semibold text-slate-700 shadow-sm hover:border-violet-200 transition-colors cursor-default">
                       {c}
                     </span>
                   ))}
+                </div>
+              </Card>
+
+              <Card className="p-0 shadow-sm border-slate-100 overflow-hidden relative group h-[300px] lg:h-auto">
+                {campaign.imageUrl ? (
+                  <img 
+                    src={campaign.imageUrl} 
+                    alt={campaign.name} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-slate-100 flex items-center justify-center">
+                    <span className="text-slate-400 font-medium">No campaign image</span>
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-bold rounded-full mb-3 border border-white/30 shadow-sm">
+                    {campaign.brand}
+                  </span>
+                  <h4 className="text-white font-bold text-2xl leading-tight drop-shadow-md">
+                    {campaign.product}
+                  </h4>
                 </div>
               </Card>
             </div>

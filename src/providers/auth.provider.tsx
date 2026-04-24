@@ -44,7 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       // Primary lookup: by auth user ID
       const { data, error } = await createSupabaseBrowserClient()
-        .from("profiles")
+        .from("vairal_profiles")
         .select("*")
         .eq("id", userId)
         .single();
@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Fallback: try by email if ID lookup failed
       if (email) {
         const { data: emailData } = await createSupabaseBrowserClient()
-          .from("profiles")
+          .from("vairal_profiles")
           .select("*")
           .eq("email", email.toLowerCase())
           .single();
@@ -64,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (emailData.id !== userId) {
             console.warn("[AuthProvider] Profile ID mismatch, fixing to match auth user...");
             await createSupabaseBrowserClient()
-              .from("profiles")
+              .from("vairal_profiles")
               .update({ id: userId })
               .eq("id", emailData.id);
           }
@@ -173,7 +173,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Immediately update state if session is returned (email confirmation disabled)
     if (data.session) {
       if (companyName) {
-        await createSupabaseBrowserClient().from("profiles").update({ company_name: companyName }).eq("id", data.session.user.id);
+        await createSupabaseBrowserClient().from("vairal_profiles").update({ company_name: companyName }).eq("id", data.session.user.id);
       }
       setSession(data.session);
       setUser(data.session.user);
@@ -211,7 +211,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!user) throw new Error("Not authenticated");
 
     const { error } = await createSupabaseBrowserClient()
-      .from("profiles")
+      .from("vairal_profiles")
       .update(data)
       .eq("id", user.id);
 

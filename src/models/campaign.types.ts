@@ -73,6 +73,7 @@ export type Campaign = {
   lastStep: number;
   paymentStatus?: "pending" | "completed";
   receiptData?: string | null;
+  imageUrl?: string;
   createdAt: string;
   updatedAt: string;
 
@@ -375,6 +376,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-001",
     name: "Summer Glow Collection Launch",
+    imageUrl: "/images/campaigns/campaign_1_summer_1777029554611.png",
     brand: "Luminara Beauty",
     product: "Vitamin C Serum",
     goal: "Product Launch",
@@ -433,6 +435,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-002",
     name: "Tech Nomad Backpack",
+    imageUrl: "/images/campaigns/campaign_2_backpack_1777029567619.png",
     brand: "Nomad Gear",
     product: "V2 Pro Backpack",
     goal: "Sales / Conversions",
@@ -481,6 +484,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-003",
     name: "Winter Fashion Lookbook",
+    imageUrl: "/images/campaigns/campaign_3_winter_1777029581907.png",
     brand: "ChicStyle",
     product: "Winter 2026 Line",
     goal: "Brand Awareness",
@@ -529,6 +533,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-004",
     name: "Fitness App Launch",
+    imageUrl: "/images/campaigns/campaign_4_fitness_1777029601469.png",
     brand: "FitPro",
     product: "FitPro App",
     goal: "App Installs",
@@ -577,6 +582,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-005",
     name: "Eco-Friendly Water Bottle",
+    imageUrl: "/images/campaigns/campaign_5_bottle_1777029617514.png",
     brand: "HydroEco",
     product: "HydroEco Bottle",
     goal: "Brand Awareness",
@@ -625,6 +631,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-006",
     name: "Gamer Headset Promo",
+    imageUrl: "/images/campaigns/campaign_6_gaming_1777029636403.png",
     brand: "AudioX",
     product: "Pro G Headset",
     goal: "Sales / Conversions",
@@ -673,6 +680,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-007",
     name: "Healthy Snacks Campaign",
+    imageUrl: "/images/campaigns/campaign_7_snacks_1777029657541.png",
     brand: "NutriBites",
     product: "Protein Bars",
     goal: "Brand Awareness",
@@ -721,6 +729,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-008",
     name: "Travel Booking App",
+    imageUrl: "/images/campaigns/campaign_8_travel_1777029674990.png",
     brand: "Wanderlust",
     product: "Wanderlust App",
     goal: "App Installs",
@@ -769,6 +778,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-009",
     name: "Smart Home Assistant",
+    imageUrl: "/images/campaigns/campaign_9_smarthome_1777029694649.png",
     brand: "HomeAI",
     product: "Home Hub Max",
     goal: "Product Launch",
@@ -817,6 +827,7 @@ export const mockCampaigns: Campaign[] = [
   {
     id: "camp-010",
     name: "Luxury Watch Campaign",
+    imageUrl: "/images/campaigns/campaign_10_watch_1777029710404.png",
     brand: "ChronoMaster",
     product: "Elegance Series",
     goal: "Brand Awareness",

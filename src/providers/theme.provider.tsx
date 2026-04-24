@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-type Theme = "dark"; // Only dark mode supported now
+type Theme = "light" | "dark";
 
 interface ThemeContextType {
   theme: Theme;
@@ -8,22 +8,36 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme] = useState<Theme>("dark"); // Fixed to dark
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
+    const savedTheme = localStorage.getItem("vairal-theme") as Theme;
+    const initialTheme = savedTheme === "dark" ? "dark" : "light";
+    setTheme(initialTheme);
+    
     const root = document.documentElement;
-    root.classList.add("dark");
-    localStorage.setItem("vairal-theme", "dark");
+    if (initialTheme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
   }, []);
 
   const toggleTheme = () => {
-    // No-op - we are enforcing premium dark mode
-    console.log("Light mode is disabled.");
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    const root = document.documentElement;
+    if (newTheme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem("vairal-theme", newTheme);
   };
 
   return (

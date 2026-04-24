@@ -6,7 +6,7 @@ const LOCAL_SAVED_CREATORS_KEY = "vairal_local_saved_creators";
 function isDummyMode(): boolean {
   if (typeof window === "undefined") return false;
   const stored = window.localStorage.getItem("vairal-dummy-mode");
-  return stored === null || stored === "true"; // defaults to true
+  return stored === "true"; // defaults to false to allow real DB interaction
 }
 
 function readLocalSavedCreators(): string[] {
@@ -31,7 +31,7 @@ export async function fetchSavedCreators(userId: string): Promise<string[]> {
 
   try {
     const { data, error } = await supabase
-      .from("vairal_saved_creators")
+      .from("vairal_creators")
       .select("creator_username")
       .eq("user_id", userId);
 
@@ -81,7 +81,7 @@ export async function saveCreator(
     };
 
     const { data, error } = await supabase
-      .from("vairal_saved_creators")
+      .from("vairal_creators")
       .insert(payload)
       .select();
 
@@ -124,7 +124,7 @@ export async function unsaveCreator(userId: string, username: string): Promise<b
 
   try {
     const { error } = await supabase
-      .from("vairal_saved_creators")
+      .from("vairal_creators")
       .delete()
       .eq("user_id", userId)
       .eq("creator_username", username);

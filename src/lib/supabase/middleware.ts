@@ -33,12 +33,12 @@ export async function updateSession(request: NextRequest) {
      }
      
      const { data: roleData } = await supabase
-       .from('user_roles')
-       .select('role')
+       .from('vairal_profiles')
+       .select('is_admin')
        .eq('id', user.id)
        .single();
 
-     if (!roleData || roleData.role !== 'admin') {
+     if (!roleData || !roleData.is_admin) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
      }
   }

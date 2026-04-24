@@ -5,7 +5,7 @@ import { toast } from "@/hooks/use-toast";
 export async function fetchCalendarSlots(userId: string): Promise<CalendarSlot[]> {
   try {
     const { data, error } = await supabase
-      .from("calendar_slots")
+      .from("vairal_calendar_slots")
       .select("*")
       .eq("user_id", userId)
       .order("date", { ascending: true });
@@ -38,7 +38,7 @@ export async function createCalendarSlot(
 ): Promise<CalendarSlot | null> {
   try {
     const { data, error } = await supabase
-      .from("calendar_slots")
+      .from("vairal_calendar_slots")
       .insert({
         user_id: userId,
         date: slot.date,
@@ -97,7 +97,7 @@ export async function updateCalendarSlot(
     if (updates.notes !== undefined) dbUpdates.notes = updates.notes;
     if (updates.slotType !== undefined) dbUpdates.slot_type = updates.slotType;
 
-    const { data, error } = await supabase.from("calendar_slots").update(dbUpdates).eq("id", id).select();
+    const { data, error } = await supabase.from("vairal_calendar_slots").update(dbUpdates).eq("id", id).select();
 
     if (error) {
       console.error("[updateCalendarSlot] Supabase error:", error.code, error.message, error.details);
@@ -122,7 +122,7 @@ export async function updateCalendarSlot(
 
 export async function deleteCalendarSlot(id: string): Promise<boolean> {
   try {
-    const { error } = await supabase.from("calendar_slots").delete().eq("id", id);
+    const { error } = await supabase.from("vairal_calendar_slots").delete().eq("id", id);
 
     if (error) {
       toast({ title: "Delete Failed", description: error.message, variant: "destructive" });
@@ -139,13 +139,13 @@ export async function syncCampaignDeliverablesToCalendar(campaign: any, userId: 
   try {
     // 1. Delete existing slots for this campaign to do a clean sync
     const { data: existingSlots } = await supabase
-      .from("calendar_slots")
+      .from("vairal_calendar_slots")
       .select("id")
       .eq("campaign_id", campaign.id);
       
     if (existingSlots && existingSlots.length > 0) {
       const ids = existingSlots.map((s: any) => s.id);
-      await supabase.from("calendar_slots").delete().in("id", ids);
+      await supabase.from("vairal_calendar_slots").delete().in("id", ids);
     }
 
     // 2. Insert new slots based only on goLiveOn and submitShootBefore

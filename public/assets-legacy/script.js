@@ -86,13 +86,9 @@
   if (!nav) return;
   window.addEventListener('scroll', () => {
     if (window.scrollY > 60) {
-      nav.style.background    = 'rgba(13,15,20,0.97)';
-      nav.style.backdropFilter = 'blur(24px)';
-      nav.style.boxShadow     = '0 2px 24px rgba(0,0,0,0.4)';
+      nav.classList.add('scrolled');
     } else {
-      nav.style.background    = '';
-      nav.style.backdropFilter = '';
-      nav.style.boxShadow     = '';
+      nav.classList.remove('scrolled');
     }
   }, { passive: true });
 })();

@@ -313,8 +313,8 @@ export default function ReportDetailPage() {
               </div>
               
               <h1 className="font-serif text-4xl lg:text-5xl text-slate-900 mb-4">{campaign.name}</h1>
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#10b981] text-white text-xs font-bold uppercase tracking-wider">
-                Wrapped
+              <div className={`inline-flex items-center px-3 py-1 rounded-full text-white text-xs font-bold uppercase tracking-wider ${campaign.status === 'completed' ? 'bg-[#10b981]' : 'bg-blue-500'}`}>
+                {campaign.status === 'completed' ? 'Finished' : 'Active'}
               </div>
             </div>
             

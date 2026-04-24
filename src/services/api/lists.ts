@@ -25,7 +25,7 @@ const LOCAL_LIST_MEMBERS_KEY = "vairal_local_list_members";
 function isDummyMode(): boolean {
   if (typeof window === "undefined") return false;
   const stored = window.localStorage.getItem("vairal-dummy-mode");
-  return stored === null || stored === "true"; // defaults to true
+  return stored === "true"; // defaults to false to allow real DB interaction
 }
 
 // --- Local Storage Helpers ---
@@ -76,7 +76,7 @@ export async function fetchLists(userId: string): Promise<(CreatorList & { previ
 
   try {
     const { data: lists, error: listsError } = await supabase
-      .from("vairal_creator_lists")
+      .from("vairal_lists")
       .select("*")
       .eq("brand_id", userId)
       .order("created_at", { ascending: false });
@@ -89,7 +89,7 @@ export async function fetchLists(userId: string): Promise<(CreatorList & { previ
     
     if (listIds.length > 0) {
       const { data: membersData, error: membersError } = await supabase
-        .from("vairal_creator_list_members")
+        .from("vairal_list_creators")
         .select("*")
         .in("list_id", listIds)
         .order("added_at", { ascending: false });
@@ -120,7 +120,7 @@ export async function getListById(listId: string): Promise<CreatorList | null> {
 
   try {
     const { data, error } = await supabase
-      .from("vairal_creator_lists")
+      .from("vairal_lists")
       .select("*")
       .eq("id", listId)
       .single();
@@ -149,7 +149,7 @@ export async function createList(userId: string, name: string): Promise<CreatorL
 
   try {
     const { data, error } = await supabase
-      .from("vairal_creator_lists")
+      .from("vairal_lists")
       .insert({
         brand_id: userId,
         name: name
@@ -181,7 +181,7 @@ export async function deleteList(listId: string): Promise<boolean> {
 
   try {
     const { error } = await supabase
-      .from("vairal_creator_lists")
+      .from("vairal_lists")
       .delete()
       .eq("id", listId);
 
@@ -212,7 +212,7 @@ export async function renameList(listId: string, newName: string): Promise<boole
 
   try {
     const { error } = await supabase
-      .from("vairal_creator_lists")
+      .from("vairal_lists")
       .update({ name: newName, updated_at: new Date().toISOString() })
       .eq("id", listId);
 
@@ -238,7 +238,7 @@ export async function fetchListMembers(listId: string): Promise<CreatorListMembe
 
   try {
     const { data, error } = await supabase
-      .from("vairal_creator_list_members")
+      .from("vairal_list_creators")
       .select("*")
       .eq("list_id", listId)
       .order("added_at", { ascending: false });
@@ -272,7 +272,7 @@ export async function addCreatorToList(listId: string, creatorUsername: string):
 
   try {
     const { error } = await supabase
-      .from("vairal_creator_list_members")
+      .from("vairal_list_creators")
       .insert({
         list_id: listId,
         creator_username: creatorUsername
@@ -309,7 +309,7 @@ export async function removeCreatorFromList(listId: string, creatorUsername: str
 
   try {
     const { error } = await supabase
-      .from("vairal_creator_list_members")
+      .from("vairal_list_creators")
       .delete()
       .eq("list_id", listId)
       .eq("creator_username", creatorUsername);

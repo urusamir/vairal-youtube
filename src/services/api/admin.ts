@@ -8,11 +8,11 @@ export async function fetchAdminDashboardStats() {
     { count: calTotal, error: calErr },
     { count: calCompletedError }
   ] = await Promise.all([
-    supabase.from("profiles").select("*", { count: "exact" }).order("id", { ascending: false }).limit(5),
-    supabase.from("campaigns").select("*", { count: "exact", head: true }),
-    supabase.from("saved_creators").select("*", { count: "exact", head: true }),
-    supabase.from("calendar_slots").select("*", { count: "exact", head: true }),
-    supabase.from("calendar_slots").select("*", { count: "exact", head: true }).eq("payment_status", "completed")
+    supabase.from("vairal_profiles").select("*", { count: "exact" }).order("id", { ascending: false }).limit(5),
+    supabase.from("vairal_campaigns").select("*", { count: "exact", head: true }),
+    supabase.from("vairal_creators").select("*", { count: "exact", head: true }),
+    supabase.from("vairal_calendar_slots").select("*", { count: "exact", head: true }),
+    supabase.from("vairal_calendar_slots").select("*", { count: "exact", head: true }).eq("payment_status", "completed")
   ]);
 
   if (profileErr) throw profileErr;
@@ -37,7 +37,7 @@ export async function fetchAdminDashboardStats() {
 
 export async function fetchAdminBrands() {
   const { data, error } = await supabase
-    .from("profiles")
+    .from("vairal_profiles")
     .select("*")
     .order("id", { ascending: false });
     
@@ -53,11 +53,11 @@ export async function fetchAdminBrandDetails(brandId: string) {
     { data: calendarSlots, error: calendarError },
     { data: lists, error: listsError }
   ] = await Promise.all([
-    supabase.from("profiles").select("*").eq("id", brandId).single(),
-    supabase.from("saved_creators").select("*").eq("user_id", brandId).order("saved_at", { ascending: false }),
-    supabase.from("campaigns").select("*").eq("user_id", brandId).order("created_at", { ascending: false }),
-    supabase.from("calendar_slots").select("*").eq("user_id", brandId).order("date", { ascending: false }),
-    supabase.from("lists").select("*").eq("brand_id", brandId).order("created_at", { ascending: false })
+    supabase.from("vairal_profiles").select("*").eq("id", brandId).single(),
+    supabase.from("vairal_creators").select("*").eq("user_id", brandId).order("saved_at", { ascending: false }),
+    supabase.from("vairal_campaigns").select("*").eq("user_id", brandId).order("created_at", { ascending: false }),
+    supabase.from("vairal_calendar_slots").select("*").eq("user_id", brandId).order("date", { ascending: false }),
+    supabase.from("vairal_lists").select("*").eq("brand_id", brandId).order("created_at", { ascending: false })
   ]);
 
   if (profileError) throw profileError;
@@ -69,7 +69,7 @@ export async function fetchAdminBrandDetails(brandId: string) {
   const listIds = (lists || []).map((list: any) => list.id).filter(Boolean);
   const { data: listMembers, error: listMembersError } = listIds.length > 0
     ? await supabase
-        .from("list_members")
+        .from("vairal_list_creators")
         .select("*")
         .in("list_id", listIds)
     : { data: [], error: null };
@@ -88,7 +88,7 @@ export async function fetchAdminBrandDetails(brandId: string) {
 
 export async function fetchAdminUsers() {
   const { data, error } = await supabase
-    .from("profiles")
+    .from("vairal_profiles")
     .select("*")
     .eq("is_admin", true)
     .order("created_at", { ascending: false });
@@ -99,7 +99,7 @@ export async function fetchAdminUsers() {
 
 export async function searchAdminUserByEmail(email: string) {
   const { data, error } = await supabase
-    .from("profiles")
+    .from("vairal_profiles")
     .select("*")
     .eq("email", email.trim().toLowerCase())
     .single();
@@ -115,7 +115,7 @@ export async function searchAdminUserByEmail(email: string) {
 
 export async function grantPendingAdminAccess(email: string) {
   const { error } = await supabase
-    .from("pending_admins")
+    .from("vairal_pending_admins")
     .upsert({ email: email.trim().toLowerCase() }, { onConflict: "email" });
 
   // Table may not exist (PGRST205) — fail silently
@@ -126,7 +126,7 @@ export async function grantPendingAdminAccess(email: string) {
 export async function toggleAdminStatus(userId: string, currentStatus: boolean) {
   const newStatus = !currentStatus;
   const { error } = await supabase
-    .from("profiles")
+    .from("vairal_profiles")
     .update({ is_admin: newStatus })
     .eq("id", userId);
     
@@ -136,7 +136,7 @@ export async function toggleAdminStatus(userId: string, currentStatus: boolean) 
 
 export async function deletePendingAdmin(email: string) {
   const { error } = await supabase
-    .from("pending_admins")
+    .from("vairal_pending_admins")
     .delete()
     .eq("email", email.trim().toLowerCase());
     
@@ -147,7 +147,7 @@ export async function deletePendingAdmin(email: string) {
 
 export async function checkPendingAdminAccess(email: string) {
   const { data, error } = await supabase
-    .from("pending_admins")
+    .from("vairal_pending_admins")
     .select("email")
     .eq("email", email.trim().toLowerCase())
     .limit(1);
@@ -159,7 +159,7 @@ export async function checkPendingAdminAccess(email: string) {
 
 export async function checkProfileAdminAccess(email: string) {
   const { data } = await supabase
-    .from("profiles")
+    .from("vairal_profiles")
     .select("email, is_admin")
     .eq("email", email.trim().toLowerCase())
     .eq("is_admin", true)
@@ -170,7 +170,7 @@ export async function checkProfileAdminAccess(email: string) {
 
 export async function createAdminProfile(userId: string, email: string, name: string) {
   const { error } = await supabase
-    .from("profiles")
+    .from("vairal_profiles")
     .upsert({
       id: userId,
       email: email.trim().toLowerCase(),
