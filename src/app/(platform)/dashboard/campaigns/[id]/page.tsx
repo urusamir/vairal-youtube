@@ -265,7 +265,7 @@ export default function CampaignWorkspace() {
                   <div className="flex -space-x-2">
                     {campaign.selectedCreators?.slice(0, 3).map((c, i) => (
                       <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
-                        <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${c.creatorId}`} alt="Avatar" className="w-full h-full object-cover" />
+                        <img loading="eager" fetchPriority="high" decoding="async" src={`https://api.dicebear.com/7.x/notionists/svg?seed=${c.creatorId}`} alt="Avatar" className="w-full h-full object-cover" />
                       </div>
                     ))}
                     {(campaign.selectedCreators?.length || 0) > 3 && (
@@ -293,7 +293,7 @@ export default function CampaignWorkspace() {
                     {campaign.briefs?.length || 0}
                   </div>
                 </div>
-                <img 
+                <img loading="eager" fetchPriority="high" decoding="async" 
                   src="/images/campaigns/icon_briefs_1777029977791.png" 
                   alt="Briefs" 
                   className="absolute -bottom-4 -right-4 w-28 h-28 object-contain opacity-90 transition-transform hover:scale-110"
@@ -313,7 +313,7 @@ export default function CampaignWorkspace() {
                     {campaign.deliverables?.length || 0}
                   </div>
                 </div>
-                <img 
+                <img loading="eager" fetchPriority="high" decoding="async" 
                   src="/images/campaigns/icon_deliverables_1777029993966.png" 
                   alt="Deliverables" 
                   className="absolute -bottom-4 -right-4 w-28 h-28 object-contain opacity-90 transition-transform hover:scale-110"
@@ -350,7 +350,7 @@ export default function CampaignWorkspace() {
 
               <Card className="p-0 shadow-sm border-slate-100 overflow-hidden relative group h-[300px] lg:h-auto">
                 {campaign.imageUrl ? (
-                  <img 
+                  <img loading="eager" fetchPriority="high" decoding="async" 
                     src={campaign.imageUrl} 
                     alt={campaign.name} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

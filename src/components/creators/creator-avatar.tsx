@@ -36,6 +36,8 @@ export function CreatorAvatar({
         src={src}
         alt={`${name} profile image`}
         className={className}
+        loading="eager"
+        decoding="async"
         fetchPriority="high"
         referrerPolicy="no-referrer"
         onError={() => setFailed(true)}

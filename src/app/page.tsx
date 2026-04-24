@@ -186,18 +186,18 @@ export default function LandingPage() {
       <!-- RIGHT: PHONE MOCKUP & POLAROIDS -->
       <div class="hero-alfan-phones" id="hero-visual" style="position: relative">
         
-        <!-- Polaroid 1 (Middle Right) -->
-        <div style="position: absolute; top: 100px; right: -120px; width: 150px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(10deg); z-index: 20">
-          <img src="/images/polaroid-1.png" alt="Kids in nature" style="width: 100%; height: auto; border-radius: 4px;" />
+        <!-- Polaroid 1 (Kids in nature) -->
+        <div style="position: absolute; top: 120px; right: -140px; width: 150px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(10deg); z-index: 20">
+          <img src="/images/polaroid-1.png" alt="Kids in nature" style="width: 100%; height: auto; border-radius: 4px;" loading="eager" fetchpriority="high" decoding="async" />
         </div>
 
-        <!-- Polaroid 2 (Bottom Right) -->
-        <div style="position: absolute; bottom: 80px; right: -100px; width: 160px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(-6deg); z-index: 30">
-          <img src="/images/polaroid-3.png" alt="Girl cooking" style="width: 100%; height: auto; border-radius: 4px" />
+        <!-- Polaroid 2 (Girl cooking) -->
+        <div style="position: absolute; top: 260px; right: -110px; width: 160px; background: white; padding: 8px; padding-bottom: 24px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(-6deg); z-index: 30">
+          <img src="/images/polaroid-3.png" alt="Girl cooking" style="width: 100%; height: auto; border-radius: 4px" loading="eager" fetchpriority="high" decoding="async" />
         </div>
 
-        <!-- 210K+ Successful Campaigns Card (Bottom right, overlapping polaroid) -->
-        <div style="position: absolute; bottom: 10px; right: -50px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 12px 16px; border-radius: 16px; box-shadow: 0 15px 30px rgba(0,0,0,0.08); display: flex; flex-direction: column; align-items: center; gap: 4px; z-index: 40">
+        <!-- 210K+ Successful Campaigns Card -->
+        <div style="position: absolute; top: 380px; right: -60px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 12px 16px; border-radius: 16px; box-shadow: 0 15px 30px rgba(0,0,0,0.08); display: flex; flex-direction: column; align-items: center; gap: 4px; z-index: 40">
            <div style="width: 32px; height: 32px; border-radius: 50%; background: #f43f5e; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 4px">
              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
            </div>
@@ -205,51 +205,75 @@ export default function LandingPage() {
            <span style="font-size: 10px; font-weight: 700; color: #6b7280; text-align: center; line-height: 1.2">Successful<br/>Campaigns</span>
         </div>
 
-        <div class="phone-front">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <div class="phone-topbar">
-              <div class="phone-logo-text">Vairal</div>
-              <div class="phone-avatar">A</div>
-            </div>
-            <div class="phone-kpi-row">
-              <div class="phone-kpi pk-blue">
-                <div class="pk-val">4.2M</div>
-                <div class="pk-lbl">Reach</div>
-              </div>
-              <div class="phone-kpi">
-                <div class="pk-val">8.7%</div>
-                <div class="pk-lbl">Eng. Rate</div>
-              </div>
-            </div>
-            <div class="phone-chart">
-              <div class="phone-chart-label">Campaign ROI</div>
-              <div class="phone-bars">
-                <div class="pb" style="height:40%"></div>
-                <div class="pb" style="height:65%"></div>
-                <div class="pb pb-active" style="height:90%"></div>
-                <div class="pb" style="height:75%"></div>
-                <div class="pb" style="height:80%"></div>
-              </div>
-            </div>
-            <div class="phone-creators">
-              <div class="phone-creator-row"><div class="pcr-dot" style="background:#4671F6"></div><span>Maya's Family</span><span class="pcr-stat">2.1M</span></div>
-              <div class="phone-creator-row"><div class="pcr-dot" style="background:#a855f7"></div><span>The Kiddos</span><span class="pcr-stat">890K</span></div>
-            </div>
+        <!-- Cost per view Card -->
+        <div class="hero-float-card" id="floating-card-1" style="position: absolute; top: 20px; right: -100px; background: white; border-radius: 14px; padding: 12px 14px; display: flex; align-items: flex-start; gap: 8px; box-shadow: 0 12px 40px rgba(0,0,0,0.25); z-index: 10;">
+          <div class="hfc-icon-wrap" style="background: rgba(70,113,246,0.1); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4671F6" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div>
+            <div class="hfc-label" style="font-size: 10px; color: #6b7280; font-weight: 500;">Cost per view</div>
+            <div class="hfc-value" style="font-size: 16px; font-weight: 800; color: #111827;">$0.01</div>
+            <span class="hfc-badge" style="font-size: 8px; color: #10b981; font-weight: 700; background: rgba(16,185,129,0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px;">Above average</span>
           </div>
         </div>
-        <div class="hero-float-card hfc-top" id="floating-card-1">
-          <div class="hfc-icon-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4671F6" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-          <div>
-            <div class="hfc-label">Cost per view</div>
-            <div class="hfc-value">\$0.01</div>
-            <span class="hfc-badge">Above average</span>
-          </div>
-        </div>
-        <div class="hero-float-card hfc-bottom" id="floating-card-2">
-          <div>
-            <div class="hfc-label hfc-label-dark">Views</div>
-            <div class="hfc-value hfc-value-dark">125m+</div>
+
+        <div class="phone-front" style="width: 240px; height: 460px; background: white; border-radius: 36px; padding: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 6px #f8fafc inset; border: 4px solid #e2e8f0; position: relative; z-index: 5;">
+          <div class="phone-screen" style="height: 100%; display: flex; flex-direction: column; gap: 12px;">
+            <div class="phone-topbar" style="display: flex; justify-content: space-between; align-items: center;">
+              <div class="phone-logo-text" style="font-weight: 800; color: #4f46e5; display: flex; align-items: center; gap: 4px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg> Vairal</div>
+              <div class="phone-avatar" style="width: 24px; height: 24px; border-radius: 50%; background: #a855f7; color: white; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;">A</div>
+            </div>
+            
+            <div class="phone-kpi-row" style="display: flex; gap: 8px;">
+              <div class="phone-kpi" style="flex: 1; border: 1px solid #f1f5f9; border-radius: 12px; padding: 10px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <div style="font-size: 18px; font-weight: 800; color: #0f172a; line-height: 1;">4.2M</div>
+                <div style="font-size: 10px; font-weight: 500; color: #64748b; margin-top: 2px;">Total Reach</div>
+                <div style="display: inline-block; font-size: 9px; font-weight: 700; color: #10b981; background: #ecfdf5; padding: 2px 6px; border-radius: 4px; margin-top: 6px;">↑ 18.6%</div>
+              </div>
+              <div class="phone-kpi" style="flex: 1; border: 1px solid #f1f5f9; border-radius: 12px; padding: 10px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <div style="font-size: 18px; font-weight: 800; color: #0f172a; line-height: 1;">8.7%</div>
+                <div style="font-size: 10px; font-weight: 500; color: #64748b; margin-top: 2px;">Engagement Rate</div>
+                <div style="display: inline-block; font-size: 9px; font-weight: 700; color: #10b981; background: #ecfdf5; padding: 2px 6px; border-radius: 4px; margin-top: 6px;">↑ 2.4%</div>
+              </div>
+            </div>
+            
+            <div class="phone-chart" style="border: 1px solid #f1f5f9; border-radius: 12px; padding: 10px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-top: 4px;">
+              <div style="font-size: 10px; font-weight: 600; color: #0f172a; margin-bottom: 12px;">Campaign Performance</div>
+              <div style="display: flex; align-items: flex-end; gap: 4px; height: 36px; position: relative;">
+                <div style="flex: 1; background: #e2e8f0; border-radius: 2px 2px 0 0; height: 30%;"></div>
+                <div style="flex: 1; background: #e2e8f0; border-radius: 2px 2px 0 0; height: 50%;"></div>
+                <div style="flex: 1; background: #e2e8f0; border-radius: 2px 2px 0 0; height: 40%;"></div>
+                <div style="flex: 1.5; background: #4f46e5; border-radius: 2px 2px 0 0; height: 90%; position: relative;">
+                  <div style="position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 8px; font-weight: 700; color: #4f46e5; background: #e0e7ff; padding: 2px 4px; border-radius: 4px; white-space: nowrap;">↑ 28%</div>
+                </div>
+                <div style="flex: 1; background: #e2e8f0; border-radius: 2px 2px 0 0; height: 60%;"></div>
+                <div style="flex: 1; background: #e2e8f0; border-radius: 2px 2px 0 0; height: 70%;"></div>
+              </div>
+            </div>
+            
+            <div class="phone-creators" style="border: 1px solid #f1f5f9; border-radius: 12px; padding: 10px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-top: 4px; flex-grow: 1;">
+              <div style="font-size: 10px; font-weight: 600; color: #0f172a; margin-bottom: 8px;">Top Creators</div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://api.dicebear.com/7.x/notionists/svg?seed=maya" style="width: 16px; height: 16px; border-radius: 50%; background: #f8fafc;" loading="eager" fetchpriority="high" decoding="async" />
+                  <span style="font-size: 10px; font-weight: 500; color: #334155;">Maya's Family</span>
+                  <span style="margin-left: auto; font-size: 10px; font-weight: 700; color: #10b981;">2.1M</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://api.dicebear.com/7.x/notionists/svg?seed=kiddos" style="width: 16px; height: 16px; border-radius: 50%; background: #f8fafc;" loading="eager" fetchpriority="high" decoding="async" />
+                  <span style="font-size: 10px; font-weight: 500; color: #334155;">The Kiddos</span>
+                  <span style="margin-left: auto; font-size: 10px; font-weight: 700; color: #8b5cf6;">890K</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://api.dicebear.com/7.x/notionists/svg?seed=sophie" style="width: 16px; height: 16px; border-radius: 50%; background: #f8fafc;" loading="eager" fetchpriority="high" decoding="async" />
+                  <span style="font-size: 10px; font-weight: 500; color: #334155;">Fun With Sophie</span>
+                  <span style="margin-left: auto; font-size: 10px; font-weight: 700; color: #f59e0b;">620K</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://api.dicebear.com/7.x/notionists/svg?seed=explorers" style="width: 16px; height: 16px; border-radius: 50%; background: #f8fafc;" loading="eager" fetchpriority="high" decoding="async" />
+                  <span style="font-size: 10px; font-weight: 500; color: #334155;">Little Explorers</span>
+                  <span style="margin-left: auto; font-size: 10px; font-weight: 700; color: #ec4899;">410K</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
