@@ -46,7 +46,7 @@ export async function signup(formData: FormData) {
   if (error) {
     redirect(`/login?error=${encodeURIComponent(error.message)}`)
   }
-  redirect(`/login?message=${encodeURIComponent('Check your email to confirm your account before logging in.')}`)
+  redirect('/dashboard')
 }
 
 export async function signInWithGoogle() {

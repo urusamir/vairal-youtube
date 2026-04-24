@@ -2,6 +2,7 @@ import { login, signup, signInWithGoogle } from './actions'
 import Link from "next/link"
 import Image from "next/image"
 import { Users, TrendingUp, ShieldCheck, Heart, Sparkles, UserCheck } from "lucide-react"
+import PasswordInput from './password-input'
 
 export default async function LoginPage(props: { searchParams: Promise<{ error?: string, message?: string, mode?: string }> }) {
   const searchParams = await props.searchParams;
@@ -114,22 +115,7 @@ export default async function LoginPage(props: { searchParams: Promise<{ error?:
                   </div>
                 </div>
                 
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                     <label htmlFor="password" className="text-[13px] font-bold text-slate-700">Password</label>
-                     {!isSignup && <Link href="#" className="text-[13px] font-bold text-[#5E43FF] hover:underline">Forgot password?</Link>}
-                  </div>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    </div>
-                    <input id="password" name="password" type="password" required placeholder="••••••••"
-                      className="w-full pl-11 pr-11 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#5E43FF]/30 focus:border-[#5E43FF] transition-all bg-white text-sm font-medium placeholder:text-slate-400 font-sans tracking-widest" />
-                    <div className="absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400 hover:text-slate-600 transition-colors"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
-                    </div>
-                  </div>
-                </div>
+                <PasswordInput isSignup={isSignup} />
 
                 {!isSignup && (
                   <div className="flex items-center gap-2">
@@ -144,19 +130,6 @@ export default async function LoginPage(props: { searchParams: Promise<{ error?:
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="absolute right-6"><path d="m9 18 6-6-6-6"/></svg>
                   </button>
                 </div>
-              </form>
-
-              <div className="flex items-center my-6">
-                <div className="flex-1 h-px bg-slate-100"></div>
-                <span className="px-4 text-[11px] text-slate-400 font-bold uppercase tracking-wider">OR</span>
-                <div className="flex-1 h-px bg-slate-100"></div>
-              </div>
-
-              <form>
-                <button formAction={signInWithGoogle} className="w-full py-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl font-bold text-[14px] transition-all flex items-center justify-center gap-3">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-                  Continue with Google
-                </button>
               </form>
 
               <div className="mt-8 text-center flex items-center justify-center gap-1.5 text-[13px] text-slate-500 font-medium">
